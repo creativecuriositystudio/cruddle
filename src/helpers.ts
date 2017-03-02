@@ -14,7 +14,7 @@ export class Definitions {
    * @param model The model.
    * @param overrides Any static overrides to the definition that gets generated.
    */
-  protected static base<T extends Model>(model: ModelConstructor<T>, overrides: Partial<BaseDefinition<T>>): BaseDefinition<T> {
+  protected static base<T extends Model>(model: ModelConstructor<T>, overrides?: Partial<BaseDefinition<T>>): BaseDefinition<T> {
     let props = getProperties(model);
     let attrs = [];
     let assocs = [];
@@ -73,7 +73,7 @@ export class Definitions {
    * @param overrides Any static overrides to the definition that gets generated.
    * @returns The generated definition.
    */
-  static form<T extends Model>(model: ModelConstructor<T>, overrides: Partial<FormDefinition<T>>): FormDefinition<T> {
+  static form<T extends Model>(model: ModelConstructor<T>, overrides?: Partial<FormDefinition<T>>): FormDefinition<T> {
     let base = Definitions.base(model, overrides as Partial<BaseDefinition<T>>);
 
     return {
@@ -89,7 +89,7 @@ export class Definitions {
    * @param overrides Any static overrides to the definition that gets generated.
    * @returns The generated definition.
    */
-  static delete<T extends Model>(model: ModelConstructor<T>, overrides: Partial<DeleteDefinition<T>>): DeleteDefinition<T> {
+  static delete<T extends Model>(model: ModelConstructor<T>, overrides?: Partial<DeleteDefinition<T>>): DeleteDefinition<T> {
     let base = Definitions.base(model, overrides as Partial<BaseDefinition<T>>);
 
     return {
@@ -105,7 +105,7 @@ export class Definitions {
    * @param overrides Any static overrides to the definition that gets generated.
    * @returns The generated definition.
    */
-  static read<T extends Model>(model: ModelConstructor<T>, overrides: Partial<ReadDefinition<T>>): ReadDefinition<T> {
+  static read<T extends Model>(model: ModelConstructor<T>, overrides?: Partial<ReadDefinition<T>>): ReadDefinition<T> {
     let base = Definitions.base(model, overrides as Partial<BaseDefinition<T>>);
 
     return {
@@ -121,7 +121,7 @@ export class Definitions {
    * @param overrides Any static overrides to the definition that gets generated.
    * @returns The generated definition.
    */
-  static list<T extends Model>(model: ModelConstructor<T>, overrides: Partial<ListDefinition<T>>): ListDefinition<T> {
+  static list<T extends Model>(model: ModelConstructor<T>, overrides?: Partial<ListDefinition<T>>): ListDefinition<T> {
     let base = Definitions.base(model, overrides as Partial<BaseDefinition<T>>);
 
     return {
