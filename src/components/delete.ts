@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Model } from 'modelsafe';
 
 import { DeleteDefinition } from '../definitions/delete';
@@ -20,4 +20,17 @@ export class DeleteComponent {
 
   /** The model instance that's possibly being deleted. */
   @Input() data: any;
+
+  /** Emits errors during deleting the instance. */
+  @Output() error = new EventEmitter();
+
+  /** Proceed with deleting the instance. */
+  delete() {
+    let self = this;
+
+    this.def.delete(this.data)
+      .catch(err => {
+        self.error.emit(err);
+      });
+  }
 }
