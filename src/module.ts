@@ -6,6 +6,11 @@ import { FormComponent } from './components/form';
 import { ListComponent } from './components/list';
 import { ReadComponent } from './components/read';
 
+/**
+ * The module containing all of the Cruddle components.
+ * This should be imported into your relevant application
+ * modules.
+ */
 @NgModule({
   imports: [CommonModule],
 

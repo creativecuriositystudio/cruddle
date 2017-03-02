@@ -3,6 +3,9 @@ import { Model } from 'modelsafe';
 
 import { DeleteDefinition } from '../definitions/delete';
 
+/**
+ * The Cruddle delete component that handles delete screen functionality.
+ */
 @Component({
   selector: 'cruddle-delete',
   template: `
@@ -12,8 +15,9 @@ import { DeleteDefinition } from '../definitions/delete';
   `
 })
 export class DeleteComponent {
-  // FIXME: Use a generic variable here.
-  // SEE: https://github.com/angular/angular/issues/11057
+  /** The definition of the delete screen. */
   @Input() def: DeleteDefinition<any>;
+
+  /** The model instance that's possibly being deleted. */
   @Input() data: any;
 }

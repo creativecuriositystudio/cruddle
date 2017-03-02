@@ -4,5 +4,7 @@ import { BaseDefinition } from './base';
 
 /**
  * The definition of a read component.
+ *
+ * @param T The model.
  */
 export interface ReadDefinition<T extends Model> extends BaseDefinition<T> {}

@@ -3,6 +3,9 @@ import { Model } from 'modelsafe';
 
 import { FormDefinition } from '../definitions/form';
 
+/**
+ * The Cruddle form component that handles the create/update screen functionality.
+ */
 @Component({
   selector: 'cruddle-form',
   template: `
@@ -12,8 +15,12 @@ import { FormDefinition } from '../definitions/form';
   `
 })
 export class FormComponent {
-  // FIXME: Use a generic variable here.
-  // SEE: https://github.com/angular/angular/issues/11057
+  /** The definition of the form screen. */
   @Input() def: FormDefinition<any>;
+
+  /**
+   * The model instance being edited or created.
+   * In this case of creation, this could be an empty object.
+   */
   @Input() data: any;
 }

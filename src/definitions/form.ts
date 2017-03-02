@@ -18,6 +18,8 @@ export interface SaveCallback<T extends Model> {
 
 /**
  * The definition of a form component.
+ *
+ * @param T The model.
  */
 export interface FormDefinition<T extends Model> extends BaseDefinition<T> {
   /** The callback for saving a new or old model instance. */

@@ -3,6 +3,9 @@ import { Model } from 'modelsafe';
 
 import { ReadDefinition } from '../definitions/read';
 
+/**
+ * The Cruddle read component that handles the read/view screen.
+ */
 @Component({
   selector: 'cruddle-read',
   template: `
@@ -12,8 +15,9 @@ import { ReadDefinition } from '../definitions/read';
   `
 })
 export class ReadComponent {
-  // FIXME: Use a generic variable here.
-  // SEE: https://github.com/angular/angular/issues/11057
+  /** The definition of the read/view screen. */
   @Input() def: ReadDefinition<any>;
+
+  /** The model instance data that is being read/viewed. */
   @Input() data: any;
 }

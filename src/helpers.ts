@@ -1,6 +1,7 @@
-import { getAttributes, Model, ModelConstructor } from 'modelsafe';
+import { getProperties, Model, ModelConstructor, Property, Attribute, Association } from 'modelsafe';
 
-import { BaseDefinition, DeleteDefinition, FormDefinition, ListDefinition, ReadDefinition } from './definitions';
+import { BaseDefinition, DeleteDefinition, FormDefinition,
+    ListDefinition, ReadDefinition } from './definitions';
 
 /**
  * A set of helpers for generating the CRUDL definitions
@@ -14,10 +15,50 @@ export class Definitions {
    * @param overrides Any static overrides to the definition that gets generated.
    */
   protected static base<T extends Model>(model: ModelConstructor<T>, overrides: Partial<BaseDefinition<T>>): BaseDefinition<T> {
-    let attrs = getAttributes(model);
+    let props = getProperties(model);
+    let attrs = [];
+    let assocs = [];
+
+    for (let key of Object.keys(props)) {
+      let prop = props[key] as Property<any>;
+      let path = prop.compile();
+
+      if (prop instanceof Attribute) {
+        // We cast as any to get the private assoc type.
+        let type = (prop as any).type;
+
+        attrs.push({
+          prop,
+          path,
+          type,
+
+          label: path,
+          sortable: false,
+          filterable: false
+        });
+      }
+
+      if (prop instanceof Association) {
+        // We cast as any to get the private assoc type.
+        let type = (prop as any).type;
+
+        assocs.push({
+          prop,
+          path,
+          type,
+
+          label: path,
+          sortable: false,
+          filterable: false
+        });
+      }
+    }
 
     return {
-      attrs: [],
+      model,
+      attrs,
+      assocs,
+
       actions: [],
       contextualActions: [],
 

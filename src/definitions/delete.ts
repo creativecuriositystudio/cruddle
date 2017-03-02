@@ -14,6 +14,8 @@ export interface DeleteCallback<T extends Model> {
 
 /**
  * The definition of a delete component.
+ *
+ * @param T The model.
  */
 export interface DeleteDefinition<T extends Model> extends BaseDefinition<T> {
   /** The callback for deleting a model instance. */

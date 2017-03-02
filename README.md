@@ -29,7 +29,7 @@ npm install --save cruddle
 ### General Concepts
 
 Cruddle aims to separate the definition of each CRUDL screen
-from the actual structure. What this means is you define
+from the actual structure. This means that you define
 the filters, sorting, permissions, contextual actions, fields, etc.
 separate to the HTML structure in Cruddle definitions
 and then your component's template turns this into an appropiate HTML structure.
@@ -77,6 +77,17 @@ added to the list component.
 The selector for the list component is `<cruddle-delete/>`.
 The delete component takes a `DeleteDefinition`, which describes
 how the form component actually functions.
+
+## Documentatation
+
+The API documentation generated using [TypeDoc](https://github.com/TypeStrong/typedoc)
+is [available online](http://creativecuriosity.github.io/cruddle).
+
+To generate API documentation from the code into the `docs` directory, run:
+
+```sh
+npm run docs
+```
 
 ## Testing
 
