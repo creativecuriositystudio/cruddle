@@ -1,0 +1,653 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>cruddle documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	    <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">cruddle documentation</a>
+            <button type="button" class="btn btn-default btn-menu fa fa-bars" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+            <div id="book-search-input" role="search">
+                <input type="text" placeholder="Type to search">
+            </div>
+            <nav>
+            
+                <ul class="list">
+            
+                    <li class="title">
+                        <a href="../">cruddle documentation</a>
+                    </li>
+            
+                    <li class="divider"></li>
+            
+            
+                    <li class="chapter">
+                        <a data-type="chapter-link" href="../"><span class="fa fa-home"></span>Getting started</a>
+                        <ul class="links">
+                                <li class="link">
+                                    <a href="../" ><span class="fa fa-file-text-o"></span>README</a>
+                                </li>
+                                <li class="link">
+                                    <a 
+                                        
+                                         href="../overview.html" 
+                                         href="../overview.html" 
+                                        >
+                                        <span class="fa fa-th"></span>Overview
+                                    </a>
+                                </li>
+                        </ul>
+                    </li>
+            
+                    <li class="chapter">
+                        <a data-type="chapter-link" href="./modules.html" >
+                            <span class="fa fa-archive"></span>
+                            <span>Modules</span>
+                            <span class="menu-toggler fa fa-angle-up" data-toggle="collapse"
+                                    data-target="#xs-modules-links"
+                            ></span>
+                        </a>
+                        <ul class="links collapse in"
+                                id="xs-modules-links"
+                            >
+                                <li class="link">
+                                    <a href="../modules/CruddleModule.html" >CruddleModule</a>
+                                </li>
+                        </ul>
+                    </li>
+            
+                    <li class="chapter">
+                        <div class="simple">
+                            <span class="fa fa-cogs"></span>
+                            <span>Components</span>
+                            <span class="menu-toggler fa fa-angle-up" data-toggle="collapse"
+                                    data-target="#xs-components-links"
+                                ></span>
+                        </div>
+                        <ul class="links collapse in"
+                                id="xs-components-links"
+                            >
+                                <li class="link">
+                                    <a href="../components/DeleteComponent.html" >DeleteComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/FormComponent.html" >FormComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/ListComponent.html" >ListComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/ReadComponent.html" >ReadComponent</a>
+                                </li>
+                        </ul>
+                    </li>
+            
+            
+                    <li class="chapter">
+                        <div class="simple">
+                            <span class="fa fa-file-code-o"></span>
+                            <span>Classes</span>
+                            <span class="menu-toggler fa fa-angle-up" data-toggle="collapse"
+                                    data-target="#xs-classes-links"
+                                ></span>
+                        </div>
+                        <ul class="links collapse in"
+                                id="xs-classes-links"
+                            >
+                                <li class="link">
+                                    <a href="../classes/Definitions.html" >Definitions</a>
+                                </li>
+                        </ul>
+                    </li>
+            
+            
+            
+                    <li class="chapter">
+                        <div class="simple">
+                            <span class="fa fa-info"></span>
+                            <span>Interfaces</span>
+                            <span class="menu-toggler fa fa-angle-up" data-toggle="collapse"
+                                    data-target="#xs-interfaces-links"
+                                ></span>
+                        </div>
+                        <ul class="links collapse in"
+                                id="xs-interfaces-links"
+                            >
+                                <li class="link">
+                                    <a href="../interfaces/ActionDefinition.html" >ActionDefinition</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../interfaces/AssociationDefinition.html" >AssociationDefinition</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../interfaces/AttributeDefinition.html" >AttributeDefinition</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../interfaces/BaseDefinition.html" >BaseDefinition</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../interfaces/ContextualActionCallback.html" >ContextualActionCallback</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../interfaces/ContextualActionDefinition.html" >ContextualActionDefinition</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../interfaces/DeleteCallback.html" >DeleteCallback</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../interfaces/DeleteDefinition.html" >DeleteDefinition</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../interfaces/FilterState.html" >FilterState</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../interfaces/FormDefinition.html" >FormDefinition</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../interfaces/GlobalActionCallback.html" >GlobalActionCallback</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../interfaces/GlobalActionDefinition.html"  class="active" >GlobalActionDefinition</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../interfaces/ListDefinition.html" >ListDefinition</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../interfaces/PagingState.html" >PagingState</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../interfaces/PropertyDefinition.html" >PropertyDefinition</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../interfaces/ReadDefinition.html" >ReadDefinition</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../interfaces/RefreshCallback.html" >RefreshCallback</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../interfaces/SaveCallback.html" >SaveCallback</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../interfaces/SortState.html" >SortState</a>
+                                </li>
+                        </ul>
+                    </li>
+            
+            
+            
+                    <li class="chapter">
+                        <a data-type="chapter-link" href="../coverage.html" ><span class="fa fa-tasks"></span>Documentation coverage</a>
+                    </li>
+            
+                    <li class="divider"></li>
+                    <li class="copyright">
+                            Documentation generated using <a href="https://compodoc.github.io/compodoc/" target="_blank">
+                                        <img src="..//images/compodoc-vectorise.svg" class="img-responsive">
+                            </a>
+                    </li>
+            
+                </ul>
+            
+            </nav>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <nav>
+                   
+                       <ul class="list">
+                   
+                           <li class="title">
+                               <a href="../">cruddle documentation</a>
+                           </li>
+                   
+                           <li class="divider"></li>
+                   
+                               <div id="book-search-input" role="search">
+                                   <input type="text" placeholder="Type to search">
+                               </div>
+                   
+                           <li class="chapter">
+                               <a data-type="chapter-link" href="../"><span class="fa fa-home"></span>Getting started</a>
+                               <ul class="links">
+                                       <li class="link">
+                                           <a href="../" ><span class="fa fa-file-text-o"></span>README</a>
+                                       </li>
+                                       <li class="link">
+                                           <a 
+                                               
+                                                href="../overview.html" 
+                                                href="../overview.html" 
+                                               >
+                                               <span class="fa fa-th"></span>Overview
+                                           </a>
+                                       </li>
+                               </ul>
+                           </li>
+                   
+                           <li class="chapter">
+                               <a data-type="chapter-link" href="./modules.html" >
+                                   <span class="fa fa-archive"></span>
+                                   <span>Modules</span>
+                                   <span class="menu-toggler fa fa-angle-up" data-toggle="collapse"
+                                           data-target="#modules-links"
+                                   ></span>
+                               </a>
+                               <ul class="links collapse in"
+                                       id="modules-links"
+                   >
+                                       <li class="link">
+                                           <a href="../modules/CruddleModule.html" >CruddleModule</a>
+                                       </li>
+                               </ul>
+                           </li>
+                   
+                           <li class="chapter">
+                               <div class="simple">
+                                   <span class="fa fa-cogs"></span>
+                                   <span>Components</span>
+                                   <span class="menu-toggler fa fa-angle-up" data-toggle="collapse"
+                                           data-target="#components-links"
+                   ></span>
+                               </div>
+                               <ul class="links collapse in"
+                                       id="components-links"
+                   >
+                                       <li class="link">
+                                           <a href="../components/DeleteComponent.html" >DeleteComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/FormComponent.html" >FormComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/ListComponent.html" >ListComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/ReadComponent.html" >ReadComponent</a>
+                                       </li>
+                               </ul>
+                           </li>
+                   
+                   
+                           <li class="chapter">
+                               <div class="simple">
+                                   <span class="fa fa-file-code-o"></span>
+                                   <span>Classes</span>
+                                   <span class="menu-toggler fa fa-angle-up" data-toggle="collapse"
+                                           data-target="#classes-links"
+                   ></span>
+                               </div>
+                               <ul class="links collapse in"
+                                       id="classes-links"
+                   >
+                                       <li class="link">
+                                           <a href="../classes/Definitions.html" >Definitions</a>
+                                       </li>
+                               </ul>
+                           </li>
+                   
+                   
+                   
+                           <li class="chapter">
+                               <div class="simple">
+                                   <span class="fa fa-info"></span>
+                                   <span>Interfaces</span>
+                                   <span class="menu-toggler fa fa-angle-up" data-toggle="collapse"
+                                           data-target="#interfaces-links"
+                   ></span>
+                               </div>
+                               <ul class="links collapse in"
+                                       id="interfaces-links"
+                   >
+                                       <li class="link">
+                                           <a href="../interfaces/ActionDefinition.html" >ActionDefinition</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../interfaces/AssociationDefinition.html" >AssociationDefinition</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../interfaces/AttributeDefinition.html" >AttributeDefinition</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../interfaces/BaseDefinition.html" >BaseDefinition</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../interfaces/ContextualActionCallback.html" >ContextualActionCallback</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../interfaces/ContextualActionDefinition.html" >ContextualActionDefinition</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../interfaces/DeleteCallback.html" >DeleteCallback</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../interfaces/DeleteDefinition.html" >DeleteDefinition</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../interfaces/FilterState.html" >FilterState</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../interfaces/FormDefinition.html" >FormDefinition</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../interfaces/GlobalActionCallback.html" >GlobalActionCallback</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../interfaces/GlobalActionDefinition.html"  class="active" >GlobalActionDefinition</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../interfaces/ListDefinition.html" >ListDefinition</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../interfaces/PagingState.html" >PagingState</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../interfaces/PropertyDefinition.html" >PropertyDefinition</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../interfaces/ReadDefinition.html" >ReadDefinition</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../interfaces/RefreshCallback.html" >RefreshCallback</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../interfaces/SaveCallback.html" >SaveCallback</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../interfaces/SortState.html" >SortState</a>
+                                       </li>
+                               </ul>
+                           </li>
+                   
+                   
+                   
+                           <li class="chapter">
+                               <a data-type="chapter-link" href="../coverage.html" ><span class="fa fa-tasks"></span>Documentation coverage</a>
+                           </li>
+                   
+                           <li class="divider"></li>
+                           <li class="copyright">
+                                   Documentation generated using <a href="https://compodoc.github.io/compodoc/" target="_blank">
+                                               <img src="..//images/compodoc-vectorise.svg" class="img-responsive">
+                                   </a>
+                           </li>
+                   
+                       </ul>
+                   
+                   </nav>
+               </div>
+               <div class="content interface">
+                   <div class="content-data">
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Interfaces</li>
+  <li>GlobalActionDefinition</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+    <li class="active">
+        <a href="#infos" id="infos-tab" role="tab" data-toggle="tab">Infos</a>
+    </li>
+    <li>
+        <a href="#source" role="tab" id="source-tab" data-toggle="tab">Source</a>
+    </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="infos">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>src/definitions/base.ts</code>
+        </p>
+
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>An action that doesn&#39;t act on a specific instance,<br>but rather is global to the whole model. A<br>good example would be a create button, which<br>isn&#39;t specific to a particular instance of the model<br>but rather can create instances of the model.</p>
+
+            </p>
+
+
+
+
+            <section>
+                <h3 id="inputs">Properties</h3>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <b>do</b>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>do:     <code>GlobalActionCallback</code>
+</bcode>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>    <code>GlobalActionCallback</code>
+
+                                        </td>
+                                    </tr>
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>The function to call when actioned. </p>
+</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+            </section>
+    </div>
+    <div class="tab-pane fade tab-source-code" id="source">
+        <pre><code class="hljs javascript">import { Property, Model, ModelConstructor,
+         AttributeType, AssociationType } from &#x27;modelsafe&#x27;;
+
+/**
+ * A property of a model. This can be either an attribute
+ * or association. It&#x27;s important that both are captured,
+ * since filtering and sorting by associations is
+ * generally useful.
+ *
+ * This is actually captured by ModelSafe,
+ * but we store these separately so that additional property
+ * can be added manually and so that we can capture
+ * extra metadata like sorting and filtering.
+ */
+export interface PropertyDefinition {
+  /**
+   * The property this definition is for.
+   * If not set, then path will be used as the source of truth.
+   */
+  prop?: Property&lt;any&gt;;
+
+  /** The path of the attribute on the model. */
+  path: string;
+
+  /** The label of this property. */
+  label: string;
+
+  /** Whether the property is sortable. Defaults to false. */
+  sortable?: boolean;
+
+  /** Whether the property is filterable. Defaults to false. */
+  filterable?: boolean;
+}
+
+/** The definition of an attribute, which is also a property. */
+export interface AttributeDefinition extends PropertyDefinition {
+  /** The attribute type. */
+  type: AttributeType;
+}
+
+/** The definition of an association, which is also a property. */
+export interface AssociationDefinition extends PropertyDefinition {
+  /** The association type. */
+  type: AssociationType;
+}
+
+/** A callback for actioning a global action. */
+export interface GlobalActionCallback {
+  (): Promise&lt;any&gt;;
+}
+
+/**
+ * A callback for actioning a contextual action.
+ *
+ * @param T The model.
+ */
+export interface ContextualActionCallback&lt;T extends Model&gt; {
+  (ctx: T): Promise&lt;any&gt;;
+}
+
+/**
+ * A generic action that performs some task.
+ * This is generally represented as a button in the UI,
+ * but it is up to the user of this library to decide
+ * how they represent this.
+ */
+export interface ActionDefinition {
+  /* The label of the action. */
+  label: string;
+
+  /**
+   * The style of the action. It&#x27;s up to the user of this library
+   * to interpret this and display the action correctly.
+   *
+   * In other words, this could be any arbitrary value
+   * but a good recommendation would be to have it as a list of HTML classes.
+   */
+  style: string;
+}
+
+/**
+ * An action that doesn&#x27;t act on a specific instance,
+ * but rather is global to the whole model. A
+ * good example would be a create button, which
+ * isn&#x27;t specific to a particular instance of the model
+ * but rather can create instances of the model.
+ */
+export interface GlobalActionDefinition extends ActionDefinition {
+  /** The function to call when actioned. */
+  do: GlobalActionCallback;
+}
+
+/**
+ * An action on a specific instance of the model.
+ *
+ * @param T The model.
+ */
+export interface ContextualActionDefinition&lt;T extends Model&gt; extends ActionDefinition {
+  /** The function to call when actioned. */
+  do: ContextualActionCallback&lt;T&gt;;
+}
+
+/**
+ * The base definition that all of the CRUDL definitions extend from.
+ * This encapsulates the core pieces of data that should be available
+ * across all components.
+ *
+ * @param T The model that this definition is for.
+ */
+export interface BaseDefinition&lt;T extends Model&gt; {
+  /** The model the definition is for. */
+  model: ModelConstructor&lt;T&gt;;
+
+  /**
+   * The actions that can be done on the model.
+   * These is global to all instances.
+   */
+  actions: GlobalActionDefinition[];
+
+  /**
+   * The contextual actions that can be done on the model.
+   * These act on a specific instance.
+   */
+  contextualActions: ContextualActionDefinition&lt;T&gt;[];
+
+  /**
+   * The attributes of the definition.
+   * These are usually generated from a model but can be manually written.
+   */
+  attrs: AttributeDefinition[];
+
+  /**
+   * The associations of the definition.
+   * These are usually generated from a model but can be manually written.
+   */
+  assocs: AssociationDefinition[];
+}
+</code></pre>
+    </div>
+</div>
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+           </div>
+       </div>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/search/search.js"></script>
+       <script src="../js/search/lunr.min.js"></script>
+       <script src="../js/search/search-lunr.js"></script>
+
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/highlight.pack.js"></script>
+       <script src="../js/libs/highlightjs-line-numbers.min.js"></script>
+       <script src="../js/search/search_index.js"></script>
+       <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                hljs.initHighlightingOnLoad();
+                hljs.initLineNumbersOnLoad();
+            });
+       </script>
+
+    </body>
+</html>
