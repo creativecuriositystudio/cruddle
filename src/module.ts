@@ -19,6 +19,13 @@ import { ReadComponent } from './components/read';
     FormComponent,
     ListComponent,
     ReadComponent
+  ],
+
+  exports: [
+    DeleteComponent,
+    FormComponent,
+    ListComponent,
+    ReadComponent
   ]
 })
 export class CruddleModule {}

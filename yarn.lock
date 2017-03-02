@@ -2187,9 +2187,9 @@ tsickle@^0.2:
     source-map "^0.5.6"
     source-map-support "^0.4.2"
 
-tslint-config-ccs@^0.1.1:
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/tslint-config-ccs/-/tslint-config-ccs-0.1.1.tgz#831d5d3a3c1f5ddd978d138dcc29bbe932bee578"
+tslint-config-ccs@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/tslint-config-ccs/-/tslint-config-ccs-0.2.0.tgz#3886592da642ed09e3ee1776760e1860018958f4"
 
 tslint@^4.0.2:
   version "4.4.2"
