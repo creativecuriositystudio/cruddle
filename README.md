@@ -81,7 +81,7 @@ how the form component actually functions.
 ## Documentatation
 
 The API documentation generated using [TypeDoc](https://github.com/TypeStrong/typedoc)
-is [available online](http://creativecuriosity.github.io/cruddle).
+is [available online](http://creativecuriositystudio.github.io/cruddle).
 
 To generate API documentation from the code into the `docs` directory, run:
 
