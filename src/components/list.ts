@@ -35,6 +35,17 @@ export class ListComponent {
   /** Emits errors during refreshing the list. */
   @Output() error = new EventEmitter();
 
+  /** Initialize the component with defaults. */
+  ngOnInit() {
+    if (!Array.isArray(this.sorting)) {
+      this.sorting = [];
+    }
+
+    if (!Array.isArray(this.filters)) {
+      this.filters = [];
+    }
+  }
+
   /**
    * Clear the sorting of the list.
    *
@@ -72,10 +83,10 @@ export class ListComponent {
   sort(map: (props: ModelProperties<any>) => Property<any>, order?: SortOrder, refresh: boolean  = true) {
     let props = getProperties(this.def.model);
     let prop = map(props);
-    let sorting = _.filter(this.sorting, s => s.prop.compile() !== prop.compile());
+    let sorting = _.filter(this.sorting, s => s.prop.toString() !== prop.toString());
 
     if (!order) {
-      order = SortOrder.ASCENDING;
+      order = SortOrder.ASC;
     }
 
     this.sorting.push({ prop, order });
@@ -121,6 +132,62 @@ export class ListComponent {
 
     if (refresh) {
       this.refresh();
+    }
+  }
+
+  /**
+   * Whether or not pagination information has been provided.
+   *
+   * @returns Whether pagination is enabled.
+   */
+  hasPaging(): boolean {
+    return this.paging && typeof (this.paging) === 'object';
+  }
+
+  /**
+   * Move to a specific page page.
+   * This will do nothing if paging information has not been provided.
+   *
+   * @param page The page number to navigate to. This starts from 1.
+   * @param refresh Whether or not to refresh the list after. Defaults to true.
+   */
+  setPage(page: number, refresh: boolean = true) {
+    if (this.hasPaging()) {
+      let paging = this.paging;
+
+      paging.page = Math.max(Math.min(page, paging.numPages), 1);
+    }
+
+    if (refresh) {
+      this.refresh();
+    }
+  }
+
+  /**
+   * Move to the next page.
+   * This will do nothing if paging information has not been provided.
+   *
+   * @param refresh Whether or not to refresh the list after. Defaults to true.
+   */
+  nextPage(refresh: boolean = true) {
+    if (this.hasPaging()) {
+      let paging = this.paging;
+
+      this.setPage(paging.page + 1, refresh);
+    }
+  }
+
+  /**
+   * Move to the previous page.
+   * This will do nothing if paging information has not been provided.
+   *
+   * @param refresh Whether or not to refresh the list after. Defaults to true.
+   */
+  previousPage(refresh: boolean = true) {
+    if (this.hasPaging()) {
+      let paging = this.paging;
+
+      this.setPage(paging.page - 1, refresh);
     }
   }
 

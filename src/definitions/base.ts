@@ -44,20 +44,6 @@ export interface AssociationDefinition extends PropertyDefinition {
   type: AssociationType;
 }
 
-/** A callback for actioning a global action. */
-export interface GlobalActionCallback {
-  (): Promise<any>;
-}
-
-/**
- * A callback for actioning a contextual action.
- *
- * @param T The model.
- */
-export interface ContextualActionCallback<T extends Model> {
-  (ctx: T): Promise<any>;
-}
-
 /**
  * A generic action that performs some task.
  * This is generally represented as a button in the UI,
@@ -87,7 +73,7 @@ export interface ActionDefinition {
  */
 export interface GlobalActionDefinition extends ActionDefinition {
   /** The function to call when actioned. */
-  do: GlobalActionCallback;
+  do(): Promise<any>;
 }
 
 /**
@@ -97,7 +83,7 @@ export interface GlobalActionDefinition extends ActionDefinition {
  */
 export interface ContextualActionDefinition<T extends Model> extends ActionDefinition {
   /** The function to call when actioned. */
-  do: ContextualActionCallback<T>;
+  do(ctx: T): Promise<any>;
 }
 
 /**

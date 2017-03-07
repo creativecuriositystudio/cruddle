@@ -1,7 +1,8 @@
 import { getProperties, Model, ModelConstructor, Property, Attribute, Association } from 'modelsafe';
 
 import { BaseDefinition, DeleteDefinition, FormDefinition,
-    ListDefinition, ReadDefinition } from './definitions';
+         ListDefinition, ReadDefinition } from './definitions';
+import { getLabel, getFilterable, getSortable } from './metadata';
 
 /**
  * A set of helpers for generating the CRUDL definitions
@@ -21,7 +22,10 @@ export class Definitions {
 
     for (let key of Object.keys(props)) {
       let prop = props[key] as Property<any>;
-      let path = prop.compile();
+      let path = prop.toString();
+      let label = getLabel(model, key);
+      let filterable = getFilterable(model, key);
+      let sortable = getSortable(model, key);
 
       if (prop instanceof Attribute) {
         // We cast as any to get the private assoc type.

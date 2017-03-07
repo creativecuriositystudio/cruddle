@@ -1,13 +1,19 @@
 import * as _ from 'lodash';
-import { Model, Property } from 'modelsafe';
+import { Model, ModelProperties, Property } from 'modelsafe';
 
 import { BaseDefinition } from './base';
 
 /** The order that a property can be sorted by. */
 export enum SortOrder {
-  ASCENDING,
-  DESCENDING
+  ASC,
+  DESC
 }
+
+/** An ascending sort. */
+export const ASC = SortOrder.ASC;
+
+/** A descending sort. */
+export const DESC = SortOrder.DESC;
 
 /** The state of sorting a property on a list. */
 export interface SortState {
@@ -37,7 +43,7 @@ export interface FilterState {
 
 /** The state of a list's pagination. */
 export interface PagingState {
-  /** The current page being viewed. */
+  /** The current page being viewed. This is not zero-indexed (i.e. it starts from 1). */
   page: number;
 
   /** The number of pages. */
@@ -51,21 +57,14 @@ export interface PagingState {
 }
 
 /**
- * A callback that refreshes the list data using
- * the current filters, sorting and pagination.
- *
- * @param T The model
- */
-export interface RefreshCallback<T extends Model> {
-  (filters: FilterState[], sorting: SortState[], paging: PagingState): Promise<T[]>;
-}
-
-/**
  * The definition of a list component.
  *
  * @param T The model
  */
 export interface ListDefinition<T extends Model> extends BaseDefinition<T> {
-  /* The callback for refreshing the list data. */
-  refresh: RefreshCallback<T>;
+  /** The callback for refreshing the list data from the current list state. */
+  refresh(filters: FilterState[], sorting: SortState[], paging: PagingState): Promise<T[]>;
+
+  /** Select the properties that should be visible on the list. */
+  visible(props: ModelProperties<T>): [Property<any>];
 }

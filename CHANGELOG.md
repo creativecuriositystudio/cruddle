@@ -1,3 +1,12 @@
+# 0.3.0
+
+* Add `@label` decorator for setting model property labels
+* Add `@filterable` decorator for setting model property filterability
+* Add `@sortable` decorator for setting model property sortability
+* Remove callback interfaces in favour of simply specifying the function type in the definitions
+* Add `setPage`/`nextPage`/`previousPage` to the list component for navigating pagination state.
+* Rename ASCENDING/DESCENDING to ASC/DESC
+
 # 0.2.0
 
 * Make the definition overrides on the definition generator methods of `Definition` optional
