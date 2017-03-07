@@ -137,13 +137,7 @@
                                     <a href="../interfaces/BaseDefinition.html" >BaseDefinition</a>
                                 </li>
                                 <li class="link">
-                                    <a href="../interfaces/ContextualActionCallback.html" >ContextualActionCallback</a>
-                                </li>
-                                <li class="link">
                                     <a href="../interfaces/ContextualActionDefinition.html"  class="active" >ContextualActionDefinition</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../interfaces/DeleteCallback.html" >DeleteCallback</a>
                                 </li>
                                 <li class="link">
                                     <a href="../interfaces/DeleteDefinition.html" >DeleteDefinition</a>
@@ -153,9 +147,6 @@
                                 </li>
                                 <li class="link">
                                     <a href="../interfaces/FormDefinition.html" >FormDefinition</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../interfaces/GlobalActionCallback.html" >GlobalActionCallback</a>
                                 </li>
                                 <li class="link">
                                     <a href="../interfaces/GlobalActionDefinition.html" >GlobalActionDefinition</a>
@@ -173,18 +164,15 @@
                                     <a href="../interfaces/ReadDefinition.html" >ReadDefinition</a>
                                 </li>
                                 <li class="link">
-                                    <a href="../interfaces/RefreshCallback.html" >RefreshCallback</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../interfaces/SaveCallback.html" >SaveCallback</a>
-                                </li>
-                                <li class="link">
                                     <a href="../interfaces/SortState.html" >SortState</a>
                                 </li>
                         </ul>
                     </li>
             
             
+                    <li class="chapter">
+                        <a data-type="chapter-link" href="../miscellaneous.html" ><span class="fa fa-cubes"></span>Miscellaneous</a>
+                    </li>
             
                     <li class="chapter">
                         <a data-type="chapter-link" href="../coverage.html" ><span class="fa fa-tasks"></span>Documentation coverage</a>
@@ -324,13 +312,7 @@
                                            <a href="../interfaces/BaseDefinition.html" >BaseDefinition</a>
                                        </li>
                                        <li class="link">
-                                           <a href="../interfaces/ContextualActionCallback.html" >ContextualActionCallback</a>
-                                       </li>
-                                       <li class="link">
                                            <a href="../interfaces/ContextualActionDefinition.html"  class="active" >ContextualActionDefinition</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../interfaces/DeleteCallback.html" >DeleteCallback</a>
                                        </li>
                                        <li class="link">
                                            <a href="../interfaces/DeleteDefinition.html" >DeleteDefinition</a>
@@ -340,9 +322,6 @@
                                        </li>
                                        <li class="link">
                                            <a href="../interfaces/FormDefinition.html" >FormDefinition</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../interfaces/GlobalActionCallback.html" >GlobalActionCallback</a>
                                        </li>
                                        <li class="link">
                                            <a href="../interfaces/GlobalActionDefinition.html" >GlobalActionDefinition</a>
@@ -360,18 +339,15 @@
                                            <a href="../interfaces/ReadDefinition.html" >ReadDefinition</a>
                                        </li>
                                        <li class="link">
-                                           <a href="../interfaces/RefreshCallback.html" >RefreshCallback</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../interfaces/SaveCallback.html" >SaveCallback</a>
-                                       </li>
-                                       <li class="link">
                                            <a href="../interfaces/SortState.html" >SortState</a>
                                        </li>
                                </ul>
                            </li>
                    
                    
+                           <li class="chapter">
+                               <a data-type="chapter-link" href="../miscellaneous.html" ><span class="fa fa-cubes"></span>Miscellaneous</a>
+                           </li>
                    
                            <li class="chapter">
                                <a data-type="chapter-link" href="../coverage.html" ><span class="fa fa-tasks"></span>Documentation coverage</a>
@@ -428,44 +404,37 @@
 
             </p>
 
-
-
-
             <section>
-                <h3 id="inputs">Properties</h3>
+                <h3 id="methods">Methods</h3>
                     <table class="table table-sm table-bordered">
                         <tbody>
-                                <tr>
-                                    <td class="col-md-4">
-                                        <b>do</b>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="col-md-4">
-                                        <code>do:     <code>ContextualActionCallback&lt;T&gt;</code>
-</bcode>
-                                    </td>
-                                </tr>
-
-
-                                    <tr>
-                                        <td class="col-md-4">
-                                            <i>Type : </i>    <code>ContextualActionCallback&lt;T&gt;</code>
-
-                                        </td>
-                                    </tr>
-
-
-
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-description"><p>The function to call when actioned. </p>
-</div>
+                                    <b> do</b>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td class="col-md-4">
+            <code>do(ctx: T)</code>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td class="col-md-4">
+                                        <div class="io-description"><p>The function to call when actioned. </p>
+            </div>
+                                        <div class="io-description">
+                                            <b>Returns: </b>    <code>any</code>
+            
+                                        </div>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
             </section>
+
+
     </div>
     <div class="tab-pane fade tab-source-code" id="source">
         <pre><code class="hljs javascript">import { Property, Model, ModelConstructor,
@@ -514,20 +483,6 @@ export interface AssociationDefinition extends PropertyDefinition {
   type: AssociationType;
 }
 
-/** A callback for actioning a global action. */
-export interface GlobalActionCallback {
-  (): Promise&lt;any&gt;;
-}
-
-/**
- * A callback for actioning a contextual action.
- *
- * @param T The model.
- */
-export interface ContextualActionCallback&lt;T extends Model&gt; {
-  (ctx: T): Promise&lt;any&gt;;
-}
-
 /**
  * A generic action that performs some task.
  * This is generally represented as a button in the UI,
@@ -557,7 +512,7 @@ export interface ActionDefinition {
  */
 export interface GlobalActionDefinition extends ActionDefinition {
   /** The function to call when actioned. */
-  do: GlobalActionCallback;
+  do(): Promise&lt;any&gt;;
 }
 
 /**
@@ -567,7 +522,7 @@ export interface GlobalActionDefinition extends ActionDefinition {
  */
 export interface ContextualActionDefinition&lt;T extends Model&gt; extends ActionDefinition {
   /** The function to call when actioned. */
-  do: ContextualActionCallback&lt;T&gt;;
+  do(ctx: T): Promise&lt;any&gt;;
 }
 
 /**

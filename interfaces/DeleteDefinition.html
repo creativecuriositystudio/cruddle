@@ -137,13 +137,7 @@
                                     <a href="../interfaces/BaseDefinition.html" >BaseDefinition</a>
                                 </li>
                                 <li class="link">
-                                    <a href="../interfaces/ContextualActionCallback.html" >ContextualActionCallback</a>
-                                </li>
-                                <li class="link">
                                     <a href="../interfaces/ContextualActionDefinition.html" >ContextualActionDefinition</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../interfaces/DeleteCallback.html" >DeleteCallback</a>
                                 </li>
                                 <li class="link">
                                     <a href="../interfaces/DeleteDefinition.html"  class="active" >DeleteDefinition</a>
@@ -153,9 +147,6 @@
                                 </li>
                                 <li class="link">
                                     <a href="../interfaces/FormDefinition.html" >FormDefinition</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../interfaces/GlobalActionCallback.html" >GlobalActionCallback</a>
                                 </li>
                                 <li class="link">
                                     <a href="../interfaces/GlobalActionDefinition.html" >GlobalActionDefinition</a>
@@ -173,18 +164,15 @@
                                     <a href="../interfaces/ReadDefinition.html" >ReadDefinition</a>
                                 </li>
                                 <li class="link">
-                                    <a href="../interfaces/RefreshCallback.html" >RefreshCallback</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../interfaces/SaveCallback.html" >SaveCallback</a>
-                                </li>
-                                <li class="link">
                                     <a href="../interfaces/SortState.html" >SortState</a>
                                 </li>
                         </ul>
                     </li>
             
             
+                    <li class="chapter">
+                        <a data-type="chapter-link" href="../miscellaneous.html" ><span class="fa fa-cubes"></span>Miscellaneous</a>
+                    </li>
             
                     <li class="chapter">
                         <a data-type="chapter-link" href="../coverage.html" ><span class="fa fa-tasks"></span>Documentation coverage</a>
@@ -324,13 +312,7 @@
                                            <a href="../interfaces/BaseDefinition.html" >BaseDefinition</a>
                                        </li>
                                        <li class="link">
-                                           <a href="../interfaces/ContextualActionCallback.html" >ContextualActionCallback</a>
-                                       </li>
-                                       <li class="link">
                                            <a href="../interfaces/ContextualActionDefinition.html" >ContextualActionDefinition</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../interfaces/DeleteCallback.html" >DeleteCallback</a>
                                        </li>
                                        <li class="link">
                                            <a href="../interfaces/DeleteDefinition.html"  class="active" >DeleteDefinition</a>
@@ -340,9 +322,6 @@
                                        </li>
                                        <li class="link">
                                            <a href="../interfaces/FormDefinition.html" >FormDefinition</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../interfaces/GlobalActionCallback.html" >GlobalActionCallback</a>
                                        </li>
                                        <li class="link">
                                            <a href="../interfaces/GlobalActionDefinition.html" >GlobalActionDefinition</a>
@@ -360,18 +339,15 @@
                                            <a href="../interfaces/ReadDefinition.html" >ReadDefinition</a>
                                        </li>
                                        <li class="link">
-                                           <a href="../interfaces/RefreshCallback.html" >RefreshCallback</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../interfaces/SaveCallback.html" >SaveCallback</a>
-                                       </li>
-                                       <li class="link">
                                            <a href="../interfaces/SortState.html" >SortState</a>
                                        </li>
                                </ul>
                            </li>
                    
                    
+                           <li class="chapter">
+                               <a data-type="chapter-link" href="../miscellaneous.html" ><span class="fa fa-cubes"></span>Miscellaneous</a>
+                           </li>
                    
                            <li class="chapter">
                                <a data-type="chapter-link" href="../coverage.html" ><span class="fa fa-tasks"></span>Documentation coverage</a>
@@ -428,59 +404,42 @@
 
             </p>
 
-
-
-
             <section>
-                <h3 id="inputs">Properties</h3>
+                <h3 id="methods">Methods</h3>
                     <table class="table table-sm table-bordered">
                         <tbody>
-                                <tr>
-                                    <td class="col-md-4">
-                                        <b>delete</b>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="col-md-4">
-                                        <code>delete:     <code>DeleteCallback&lt;T&gt;</code>
-</bcode>
-                                    </td>
-                                </tr>
-
-
-                                    <tr>
-                                        <td class="col-md-4">
-                                            <i>Type : </i>    <code>DeleteCallback&lt;T&gt;</code>
-
-                                        </td>
-                                    </tr>
-
-
-
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-description"><p>The callback for deleting a model instance. </p>
-</div>
+                                    <b> delete</b>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td class="col-md-4">
+            <code>delete(instance: T, args: any[])</code>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td class="col-md-4">
+                                        <div class="io-description"><p>The callback for deleting a model instance. </p>
+            </div>
+                                        <div class="io-description">
+                                            <b>Returns: </b>    <code>any</code>
+            
+                                        </div>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
             </section>
+
+
     </div>
     <div class="tab-pane fade tab-source-code" id="source">
         <pre><code class="hljs javascript">import { Model } from &#x27;modelsafe&#x27;;
 
 import { BaseDefinition } from &#x27;./base&#x27;;
-
-/**
- * A callback for deleting a specific model instance.
- * This should do any validation if required and then delete the instance.
- *
- * @param T The model.
- */
-export interface DeleteCallback&lt;T extends Model&gt; {
-  (instance: T, ...args: any[]): Promise&lt;any&gt;;
-}
 
 /**
  * The definition of a delete component.
@@ -489,7 +448,7 @@ export interface DeleteCallback&lt;T extends Model&gt; {
  */
 export interface DeleteDefinition&lt;T extends Model&gt; extends BaseDefinition&lt;T&gt; {
   /** The callback for deleting a model instance. */
-  delete: DeleteCallback&lt;T&gt;;
+  delete(instance: T, ...args: any[]): Promise&lt;any&gt;;
 }
 </code></pre>
     </div>

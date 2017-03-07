@@ -137,13 +137,7 @@
                                     <a href="../interfaces/BaseDefinition.html" >BaseDefinition</a>
                                 </li>
                                 <li class="link">
-                                    <a href="../interfaces/ContextualActionCallback.html" >ContextualActionCallback</a>
-                                </li>
-                                <li class="link">
                                     <a href="../interfaces/ContextualActionDefinition.html" >ContextualActionDefinition</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../interfaces/DeleteCallback.html" >DeleteCallback</a>
                                 </li>
                                 <li class="link">
                                     <a href="../interfaces/DeleteDefinition.html" >DeleteDefinition</a>
@@ -153,9 +147,6 @@
                                 </li>
                                 <li class="link">
                                     <a href="../interfaces/FormDefinition.html" >FormDefinition</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../interfaces/GlobalActionCallback.html" >GlobalActionCallback</a>
                                 </li>
                                 <li class="link">
                                     <a href="../interfaces/GlobalActionDefinition.html" >GlobalActionDefinition</a>
@@ -173,18 +164,15 @@
                                     <a href="../interfaces/ReadDefinition.html" >ReadDefinition</a>
                                 </li>
                                 <li class="link">
-                                    <a href="../interfaces/RefreshCallback.html" >RefreshCallback</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../interfaces/SaveCallback.html" >SaveCallback</a>
-                                </li>
-                                <li class="link">
                                     <a href="../interfaces/SortState.html" >SortState</a>
                                 </li>
                         </ul>
                     </li>
             
             
+                    <li class="chapter">
+                        <a data-type="chapter-link" href="../miscellaneous.html" ><span class="fa fa-cubes"></span>Miscellaneous</a>
+                    </li>
             
                     <li class="chapter">
                         <a data-type="chapter-link" href="../coverage.html" ><span class="fa fa-tasks"></span>Documentation coverage</a>
@@ -324,13 +312,7 @@
                                            <a href="../interfaces/BaseDefinition.html" >BaseDefinition</a>
                                        </li>
                                        <li class="link">
-                                           <a href="../interfaces/ContextualActionCallback.html" >ContextualActionCallback</a>
-                                       </li>
-                                       <li class="link">
                                            <a href="../interfaces/ContextualActionDefinition.html" >ContextualActionDefinition</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../interfaces/DeleteCallback.html" >DeleteCallback</a>
                                        </li>
                                        <li class="link">
                                            <a href="../interfaces/DeleteDefinition.html" >DeleteDefinition</a>
@@ -340,9 +322,6 @@
                                        </li>
                                        <li class="link">
                                            <a href="../interfaces/FormDefinition.html" >FormDefinition</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../interfaces/GlobalActionCallback.html" >GlobalActionCallback</a>
                                        </li>
                                        <li class="link">
                                            <a href="../interfaces/GlobalActionDefinition.html" >GlobalActionDefinition</a>
@@ -360,18 +339,15 @@
                                            <a href="../interfaces/ReadDefinition.html" >ReadDefinition</a>
                                        </li>
                                        <li class="link">
-                                           <a href="../interfaces/RefreshCallback.html" >RefreshCallback</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../interfaces/SaveCallback.html" >SaveCallback</a>
-                                       </li>
-                                       <li class="link">
                                            <a href="../interfaces/SortState.html" >SortState</a>
                                        </li>
                                </ul>
                            </li>
                    
                    
+                           <li class="chapter">
+                               <a data-type="chapter-link" href="../miscellaneous.html" ><span class="fa fa-cubes"></span>Miscellaneous</a>
+                           </li>
                    
                            <li class="chapter">
                                <a data-type="chapter-link" href="../coverage.html" ><span class="fa fa-tasks"></span>Documentation coverage</a>
@@ -717,7 +693,8 @@
         <pre><code class="hljs javascript">import { getProperties, Model, ModelConstructor, Property, Attribute, Association } from &#x27;modelsafe&#x27;;
 
 import { BaseDefinition, DeleteDefinition, FormDefinition,
-    ListDefinition, ReadDefinition } from &#x27;./definitions&#x27;;
+         ListDefinition, ReadDefinition } from &#x27;./definitions&#x27;;
+import { getLabel, getFilterable, getSortable } from &#x27;./metadata&#x27;;
 
 /**
  * A set of helpers for generating the CRUDL definitions
@@ -730,14 +707,17 @@ export class Definitions {
    * @param model The model.
    * @param overrides Any static overrides to the definition that gets generated.
    */
-  protected static base&lt;T extends Model&gt;(model: ModelConstructor&lt;T&gt;, overrides: Partial&lt;BaseDefinition&lt;T&gt;&gt;): BaseDefinition&lt;T&gt; {
+  protected static base&lt;T extends Model&gt;(model: ModelConstructor&lt;T&gt;, overrides?: Partial&lt;BaseDefinition&lt;T&gt;&gt;): BaseDefinition&lt;T&gt; {
     let props &#x3D; getProperties(model);
     let attrs &#x3D; [];
     let assocs &#x3D; [];
 
     for (let key of Object.keys(props)) {
       let prop &#x3D; props[key] as Property&lt;any&gt;;
-      let path &#x3D; prop.compile();
+      let path &#x3D; prop.toString();
+      let label &#x3D; getLabel(model, key);
+      let filterable &#x3D; getFilterable(model, key);
+      let sortable &#x3D; getSortable(model, key);
 
       if (prop instanceof Attribute) {
         // We cast as any to get the private assoc type.
@@ -789,7 +769,7 @@ export class Definitions {
    * @param overrides Any static overrides to the definition that gets generated.
    * @returns The generated definition.
    */
-  static form&lt;T extends Model&gt;(model: ModelConstructor&lt;T&gt;, overrides: Partial&lt;FormDefinition&lt;T&gt;&gt;): FormDefinition&lt;T&gt; {
+  static form&lt;T extends Model&gt;(model: ModelConstructor&lt;T&gt;, overrides?: Partial&lt;FormDefinition&lt;T&gt;&gt;): FormDefinition&lt;T&gt; {
     let base &#x3D; Definitions.base(model, overrides as Partial&lt;BaseDefinition&lt;T&gt;&gt;);
 
     return {
@@ -805,7 +785,7 @@ export class Definitions {
    * @param overrides Any static overrides to the definition that gets generated.
    * @returns The generated definition.
    */
-  static delete&lt;T extends Model&gt;(model: ModelConstructor&lt;T&gt;, overrides: Partial&lt;DeleteDefinition&lt;T&gt;&gt;): DeleteDefinition&lt;T&gt; {
+  static delete&lt;T extends Model&gt;(model: ModelConstructor&lt;T&gt;, overrides?: Partial&lt;DeleteDefinition&lt;T&gt;&gt;): DeleteDefinition&lt;T&gt; {
     let base &#x3D; Definitions.base(model, overrides as Partial&lt;BaseDefinition&lt;T&gt;&gt;);
 
     return {
@@ -821,7 +801,7 @@ export class Definitions {
    * @param overrides Any static overrides to the definition that gets generated.
    * @returns The generated definition.
    */
-  static read&lt;T extends Model&gt;(model: ModelConstructor&lt;T&gt;, overrides: Partial&lt;ReadDefinition&lt;T&gt;&gt;): ReadDefinition&lt;T&gt; {
+  static read&lt;T extends Model&gt;(model: ModelConstructor&lt;T&gt;, overrides?: Partial&lt;ReadDefinition&lt;T&gt;&gt;): ReadDefinition&lt;T&gt; {
     let base &#x3D; Definitions.base(model, overrides as Partial&lt;BaseDefinition&lt;T&gt;&gt;);
 
     return {
@@ -837,7 +817,7 @@ export class Definitions {
    * @param overrides Any static overrides to the definition that gets generated.
    * @returns The generated definition.
    */
-  static list&lt;T extends Model&gt;(model: ModelConstructor&lt;T&gt;, overrides: Partial&lt;ListDefinition&lt;T&gt;&gt;): ListDefinition&lt;T&gt; {
+  static list&lt;T extends Model&gt;(model: ModelConstructor&lt;T&gt;, overrides?: Partial&lt;ListDefinition&lt;T&gt;&gt;): ListDefinition&lt;T&gt; {
     let base &#x3D; Definitions.base(model, overrides as Partial&lt;BaseDefinition&lt;T&gt;&gt;);
 
     return {

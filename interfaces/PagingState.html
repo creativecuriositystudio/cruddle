@@ -137,13 +137,7 @@
                                     <a href="../interfaces/BaseDefinition.html" >BaseDefinition</a>
                                 </li>
                                 <li class="link">
-                                    <a href="../interfaces/ContextualActionCallback.html" >ContextualActionCallback</a>
-                                </li>
-                                <li class="link">
                                     <a href="../interfaces/ContextualActionDefinition.html" >ContextualActionDefinition</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../interfaces/DeleteCallback.html" >DeleteCallback</a>
                                 </li>
                                 <li class="link">
                                     <a href="../interfaces/DeleteDefinition.html" >DeleteDefinition</a>
@@ -153,9 +147,6 @@
                                 </li>
                                 <li class="link">
                                     <a href="../interfaces/FormDefinition.html" >FormDefinition</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../interfaces/GlobalActionCallback.html" >GlobalActionCallback</a>
                                 </li>
                                 <li class="link">
                                     <a href="../interfaces/GlobalActionDefinition.html" >GlobalActionDefinition</a>
@@ -173,18 +164,15 @@
                                     <a href="../interfaces/ReadDefinition.html" >ReadDefinition</a>
                                 </li>
                                 <li class="link">
-                                    <a href="../interfaces/RefreshCallback.html" >RefreshCallback</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../interfaces/SaveCallback.html" >SaveCallback</a>
-                                </li>
-                                <li class="link">
                                     <a href="../interfaces/SortState.html" >SortState</a>
                                 </li>
                         </ul>
                     </li>
             
             
+                    <li class="chapter">
+                        <a data-type="chapter-link" href="../miscellaneous.html" ><span class="fa fa-cubes"></span>Miscellaneous</a>
+                    </li>
             
                     <li class="chapter">
                         <a data-type="chapter-link" href="../coverage.html" ><span class="fa fa-tasks"></span>Documentation coverage</a>
@@ -324,13 +312,7 @@
                                            <a href="../interfaces/BaseDefinition.html" >BaseDefinition</a>
                                        </li>
                                        <li class="link">
-                                           <a href="../interfaces/ContextualActionCallback.html" >ContextualActionCallback</a>
-                                       </li>
-                                       <li class="link">
                                            <a href="../interfaces/ContextualActionDefinition.html" >ContextualActionDefinition</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../interfaces/DeleteCallback.html" >DeleteCallback</a>
                                        </li>
                                        <li class="link">
                                            <a href="../interfaces/DeleteDefinition.html" >DeleteDefinition</a>
@@ -340,9 +322,6 @@
                                        </li>
                                        <li class="link">
                                            <a href="../interfaces/FormDefinition.html" >FormDefinition</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../interfaces/GlobalActionCallback.html" >GlobalActionCallback</a>
                                        </li>
                                        <li class="link">
                                            <a href="../interfaces/GlobalActionDefinition.html" >GlobalActionDefinition</a>
@@ -360,18 +339,15 @@
                                            <a href="../interfaces/ReadDefinition.html" >ReadDefinition</a>
                                        </li>
                                        <li class="link">
-                                           <a href="../interfaces/RefreshCallback.html" >RefreshCallback</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../interfaces/SaveCallback.html" >SaveCallback</a>
-                                       </li>
-                                       <li class="link">
                                            <a href="../interfaces/SortState.html" >SortState</a>
                                        </li>
                                </ul>
                            </li>
                    
                    
+                           <li class="chapter">
+                               <a data-type="chapter-link" href="../miscellaneous.html" ><span class="fa fa-cubes"></span>Miscellaneous</a>
+                           </li>
                    
                            <li class="chapter">
                                <a data-type="chapter-link" href="../coverage.html" ><span class="fa fa-tasks"></span>Documentation coverage</a>
@@ -555,7 +531,7 @@
 
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-description"><p>The current page being viewed. </p>
+                                    <div class="io-description"><p>The current page being viewed. This is not zero-indexed (i.e. it starts from 1). </p>
 </div>
                                 </td>
                             </tr>
@@ -565,15 +541,21 @@
     </div>
     <div class="tab-pane fade tab-source-code" id="source">
         <pre><code class="hljs javascript">import * as _ from &#x27;lodash&#x27;;
-import { Model, Property } from &#x27;modelsafe&#x27;;
+import { Model, ModelProperties, Property } from &#x27;modelsafe&#x27;;
 
 import { BaseDefinition } from &#x27;./base&#x27;;
 
 /** The order that a property can be sorted by. */
 export enum SortOrder {
-  ASCENDING,
-  DESCENDING
+  ASC,
+  DESC
 }
+
+/** An ascending sort. */
+export const ASC &#x3D; SortOrder.ASC;
+
+/** A descending sort. */
+export const DESC &#x3D; SortOrder.DESC;
 
 /** The state of sorting a property on a list. */
 export interface SortState {
@@ -603,7 +585,7 @@ export interface FilterState {
 
 /** The state of a list&#x27;s pagination. */
 export interface PagingState {
-  /** The current page being viewed. */
+  /** The current page being viewed. This is not zero-indexed (i.e. it starts from 1). */
   page: number;
 
   /** The number of pages. */
@@ -617,23 +599,16 @@ export interface PagingState {
 }
 
 /**
- * A callback that refreshes the list data using
- * the current filters, sorting and pagination.
- *
- * @param T The model
- */
-export interface RefreshCallback&lt;T extends Model&gt; {
-  (filters: FilterState[], sorting: SortState[], paging: PagingState): Promise&lt;T[]&gt;;
-}
-
-/**
  * The definition of a list component.
  *
  * @param T The model
  */
 export interface ListDefinition&lt;T extends Model&gt; extends BaseDefinition&lt;T&gt; {
-  /* The callback for refreshing the list data. */
-  refresh: RefreshCallback&lt;T&gt;;
+  /** The callback for refreshing the list data from the current list state. */
+  refresh(filters: FilterState[], sorting: SortState[], paging: PagingState): Promise&lt;T[]&gt;;
+
+  /** Select the properties that should be visible on the list. */
+  visible(props: ModelProperties&lt;T&gt;): [Property&lt;any&gt;];
 }
 </code></pre>
     </div>

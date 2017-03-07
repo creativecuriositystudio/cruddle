@@ -137,13 +137,7 @@
                                     <a href="../interfaces/BaseDefinition.html" >BaseDefinition</a>
                                 </li>
                                 <li class="link">
-                                    <a href="../interfaces/ContextualActionCallback.html" >ContextualActionCallback</a>
-                                </li>
-                                <li class="link">
                                     <a href="../interfaces/ContextualActionDefinition.html" >ContextualActionDefinition</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../interfaces/DeleteCallback.html" >DeleteCallback</a>
                                 </li>
                                 <li class="link">
                                     <a href="../interfaces/DeleteDefinition.html" >DeleteDefinition</a>
@@ -153,9 +147,6 @@
                                 </li>
                                 <li class="link">
                                     <a href="../interfaces/FormDefinition.html" >FormDefinition</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../interfaces/GlobalActionCallback.html" >GlobalActionCallback</a>
                                 </li>
                                 <li class="link">
                                     <a href="../interfaces/GlobalActionDefinition.html" >GlobalActionDefinition</a>
@@ -173,18 +164,15 @@
                                     <a href="../interfaces/ReadDefinition.html" >ReadDefinition</a>
                                 </li>
                                 <li class="link">
-                                    <a href="../interfaces/RefreshCallback.html" >RefreshCallback</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../interfaces/SaveCallback.html" >SaveCallback</a>
-                                </li>
-                                <li class="link">
                                     <a href="../interfaces/SortState.html" >SortState</a>
                                 </li>
                         </ul>
                     </li>
             
             
+                    <li class="chapter">
+                        <a data-type="chapter-link" href="../miscellaneous.html" ><span class="fa fa-cubes"></span>Miscellaneous</a>
+                    </li>
             
                     <li class="chapter">
                         <a data-type="chapter-link" href="../coverage.html" ><span class="fa fa-tasks"></span>Documentation coverage</a>
@@ -324,13 +312,7 @@
                                            <a href="../interfaces/BaseDefinition.html" >BaseDefinition</a>
                                        </li>
                                        <li class="link">
-                                           <a href="../interfaces/ContextualActionCallback.html" >ContextualActionCallback</a>
-                                       </li>
-                                       <li class="link">
                                            <a href="../interfaces/ContextualActionDefinition.html" >ContextualActionDefinition</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../interfaces/DeleteCallback.html" >DeleteCallback</a>
                                        </li>
                                        <li class="link">
                                            <a href="../interfaces/DeleteDefinition.html" >DeleteDefinition</a>
@@ -340,9 +322,6 @@
                                        </li>
                                        <li class="link">
                                            <a href="../interfaces/FormDefinition.html" >FormDefinition</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../interfaces/GlobalActionCallback.html" >GlobalActionCallback</a>
                                        </li>
                                        <li class="link">
                                            <a href="../interfaces/GlobalActionDefinition.html" >GlobalActionDefinition</a>
@@ -360,18 +339,15 @@
                                            <a href="../interfaces/ReadDefinition.html" >ReadDefinition</a>
                                        </li>
                                        <li class="link">
-                                           <a href="../interfaces/RefreshCallback.html" >RefreshCallback</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../interfaces/SaveCallback.html" >SaveCallback</a>
-                                       </li>
-                                       <li class="link">
                                            <a href="../interfaces/SortState.html" >SortState</a>
                                        </li>
                                </ul>
                            </li>
                    
                    
+                           <li class="chapter">
+                               <a data-type="chapter-link" href="../miscellaneous.html" ><span class="fa fa-cubes"></span>Miscellaneous</a>
+                           </li>
                    
                            <li class="chapter">
                                <a data-type="chapter-link" href="../coverage.html" ><span class="fa fa-tasks"></span>Documentation coverage</a>
@@ -834,6 +810,176 @@
                 <tbody>
                     <tr>
                         <td class="col-md-4">
+                            <b> hasPaging</b>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td class="col-md-4">
+    <code>hasPaging()</code>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description"><p>Whether or not pagination information has been provided.</p>
+    </div>
+                                <div class="io-description">
+                                </div>
+                                <div class="io-description">
+                                    <b>Returns: </b>    <code>boolean</code>
+    
+                                </div>
+                                    <div class="io-description">
+                                        <p>Whether pagination is enabled.</p>
+    
+                                    </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b> setPage</b>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td class="col-md-4">
+    <code>setPage(page: number, refresh: boolean)</code>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description"><p>Move to a specific page page.<br>This will do nothing if paging information has not been provided.</p>
+    </div>
+                                <div class="io-description">
+                                        <b>Parameters :</b>
+                                        <ul class="jsdoc-params">
+                                                <li>
+                                                    <div>
+                                                        <b>page</b>
+                                                    </div>
+                                                    <div>
+                                                        <p>The page number to navigate to. This starts from 1.</p>
+    
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div>
+                                                        <b>refresh</b>
+                                                    </div>
+                                                    <div>
+                                                        <p>Whether or not to refresh the list after. Defaults to true.</p>
+    
+                                                    </div>
+                                                </li>
+                                        </ul>
+                                </div>
+                                <div class="io-description">
+                                    <b>Returns: </b>    <code>void</code>
+    
+                                </div>
+                                    <div class="io-description">
+                                        
+                                    </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b> nextPage</b>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td class="col-md-4">
+    <code>nextPage(refresh: boolean)</code>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description"><p>Move to the next page.<br>This will do nothing if paging information has not been provided.</p>
+    </div>
+                                <div class="io-description">
+                                        <b>Parameters :</b>
+                                        <ul class="jsdoc-params">
+                                                <li>
+                                                    <div>
+                                                        <b>refresh</b>
+                                                    </div>
+                                                    <div>
+                                                        <p>Whether or not to refresh the list after. Defaults to true.</p>
+    
+                                                    </div>
+                                                </li>
+                                        </ul>
+                                </div>
+                                <div class="io-description">
+                                    <b>Returns: </b>    <code>void</code>
+    
+                                </div>
+                                    <div class="io-description">
+                                        
+                                    </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <b> previousPage</b>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td class="col-md-4">
+    <code>previousPage(refresh: boolean)</code>
+                        </td>
+                    </tr>
+    
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description"><p>Move to the previous page.<br>This will do nothing if paging information has not been provided.</p>
+    </div>
+                                <div class="io-description">
+                                        <b>Parameters :</b>
+                                        <ul class="jsdoc-params">
+                                                <li>
+                                                    <div>
+                                                        <b>refresh</b>
+                                                    </div>
+                                                    <div>
+                                                        <p>Whether or not to refresh the list after. Defaults to true.</p>
+    
+                                                    </div>
+                                                </li>
+                                        </ul>
+                                </div>
+                                <div class="io-description">
+                                    <b>Returns: </b>    <code>void</code>
+    
+                                </div>
+                                    <div class="io-description">
+                                        
+                                    </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-sm table-bordered">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
                             <b> refresh</b>
                         </td>
                     </tr>
@@ -898,6 +1044,17 @@ export class ListComponent {
   /** Emits errors during refreshing the list. */
   @Output() error &#x3D; new EventEmitter();
 
+  /** Initialize the component with defaults. */
+  ngOnInit() {
+    if (!Array.isArray(this.sorting)) {
+      this.sorting &#x3D; [];
+    }
+
+    if (!Array.isArray(this.filters)) {
+      this.filters &#x3D; [];
+    }
+  }
+
   /**
    * Clear the sorting of the list.
    *
@@ -935,10 +1092,10 @@ export class ListComponent {
   sort(map: (props: ModelProperties&lt;any&gt;) &#x3D;&gt; Property&lt;any&gt;, order?: SortOrder, refresh: boolean  &#x3D; true) {
     let props &#x3D; getProperties(this.def.model);
     let prop &#x3D; map(props);
-    let sorting &#x3D; _.filter(this.sorting, s &#x3D;&gt; s.prop.compile() !&#x3D;&#x3D; prop.compile());
+    let sorting &#x3D; _.filter(this.sorting, s &#x3D;&gt; s.prop.toString() !&#x3D;&#x3D; prop.toString());
 
     if (!order) {
-      order &#x3D; SortOrder.ASCENDING;
+      order &#x3D; SortOrder.ASC;
     }
 
     this.sorting.push({ prop, order });
@@ -984,6 +1141,62 @@ export class ListComponent {
 
     if (refresh) {
       this.refresh();
+    }
+  }
+
+  /**
+   * Whether or not pagination information has been provided.
+   *
+   * @returns Whether pagination is enabled.
+   */
+  hasPaging(): boolean {
+    return this.paging &amp;&amp; typeof (this.paging) &#x3D;&#x3D;&#x3D; &#x27;object&#x27;;
+  }
+
+  /**
+   * Move to a specific page page.
+   * This will do nothing if paging information has not been provided.
+   *
+   * @param page The page number to navigate to. This starts from 1.
+   * @param refresh Whether or not to refresh the list after. Defaults to true.
+   */
+  setPage(page: number, refresh: boolean &#x3D; true) {
+    if (this.hasPaging()) {
+      let paging &#x3D; this.paging;
+
+      paging.page &#x3D; Math.max(Math.min(page, paging.numPages), 1);
+    }
+
+    if (refresh) {
+      this.refresh();
+    }
+  }
+
+  /**
+   * Move to the next page.
+   * This will do nothing if paging information has not been provided.
+   *
+   * @param refresh Whether or not to refresh the list after. Defaults to true.
+   */
+  nextPage(refresh: boolean &#x3D; true) {
+    if (this.hasPaging()) {
+      let paging &#x3D; this.paging;
+
+      this.setPage(paging.page + 1, refresh);
+    }
+  }
+
+  /**
+   * Move to the previous page.
+   * This will do nothing if paging information has not been provided.
+   *
+   * @param refresh Whether or not to refresh the list after. Defaults to true.
+   */
+  previousPage(refresh: boolean &#x3D; true) {
+    if (this.hasPaging()) {
+      let paging &#x3D; this.paging;
+
+      this.setPage(paging.page - 1, refresh);
     }
   }
 
