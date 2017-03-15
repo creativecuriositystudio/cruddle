@@ -97,6 +97,12 @@ export interface BaseDefinition<T extends Model> {
   /** The model the definition is for. */
   model: ModelConstructor<T>;
 
+  /** The plural form of the model name, in lower camel-case. */
+  plural: string;
+
+  /** The singular form of the model name, in lower camel-case. */
+  singular: string;
+
   /**
    * The actions that can be done on the model.
    * These is global to all instances.

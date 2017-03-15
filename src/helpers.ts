@@ -1,7 +1,10 @@
-import { getProperties, Model, ModelConstructor, Property, Attribute, Association } from 'modelsafe';
+import * as _ from 'lodash';
+import { pluralize, singularize } from 'inflection';
+import { getProperties, getModelOptions, Model, ModelConstructor, ModelProperties,
+         Property, Attribute, Association } from 'modelsafe';
 
 import { BaseDefinition, DeleteDefinition, FormDefinition,
-         ListDefinition, ReadDefinition } from './definitions';
+         ListDefinition, ReadDefinition, ListState } from './definitions';
 import { getLabel, getFilterable, getSortable } from './metadata';
 
 /**
@@ -16,6 +19,9 @@ export class Definitions {
    * @param overrides Any static overrides to the definition that gets generated.
    */
   protected static base<T extends Model>(model: ModelConstructor<T>, overrides?: Partial<BaseDefinition<T>>): BaseDefinition<T> {
+    let options = getModelOptions(model);
+    let singular = singularize(_.camelCase(options.name));
+    let plural = pluralize(_.camelCase(options.name));
     let props = getProperties(model);
     let attrs = [];
     let assocs = [];
@@ -60,6 +66,8 @@ export class Definitions {
 
     return {
       model,
+      singular,
+      plural,
       attrs,
       assocs,
 
@@ -130,6 +138,12 @@ export class Definitions {
 
     return {
       ... base,
+
+      modes: [],
+      visible(state: ListState, props: ModelProperties<T>): Property<any>[] {
+        return _.values(props);
+      },
+
       ... overrides
     } as ListDefinition<T>;
   }

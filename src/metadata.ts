@@ -74,3 +74,35 @@ export function getSortable(ctor: Function, key: string | symbol): boolean {
 export function getFilterable(ctor: Function, key: string | symbol): boolean {
   return Reflect.getMetadata(MODEL_ATTR_FILTERABLE_META_KEY, ctor.prototype, key);
 }
+
+/**
+ * A decorator for attribute labels.
+ * By default attribute labels are the same as their key,
+ * which isn't very user-friendly. Labels can be manually
+ * provided using this decorator.
+ *
+ * @param value The attribute label.
+ */
+export function label(value: string) {
+  return (ctor: Object, key: string | symbol) => defineLabel(ctor, key, value);
+}
+
+/**
+ * A decorator for attribute sortability.
+ * By default attributes are not sortable.
+ *
+ * @param value Whether the attribute is sortable.
+ */
+export function sortable(value: boolean) {
+  return (ctor: Object, key: string | symbol) => defineSortable(ctor, key, value);
+}
+
+/**
+ * A decorator for attribute filterability.
+ * By default attributes are not filterable.
+ *
+ * @param value Whether the attribute is sortable.
+ */
+export function filterable(value: boolean) {
+  return (ctor: Object, key: string | symbol) => defineFilterable(ctor, key, value);
+}

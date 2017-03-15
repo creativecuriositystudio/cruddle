@@ -2,8 +2,8 @@ import * as _ from 'lodash';
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Model, ModelProperties, Property, getProperties } from 'modelsafe';
 
-import { ListDefinition, SortState, FilterState,
-         PagingState, SortOrder } from '../definitions/list';
+import { ListDefinition, ListState, ListMode,
+         FilterState, SortOrder } from '../definitions/list';
 
 /**
  * The Cruddle list component that handles the list screen.
@@ -23,36 +23,33 @@ export class ListComponent {
   /** The model instance data that is being listed. */
   @Input() data: any[];
 
-  /** Any sorting to apply to the list. */
-  @Input() sorting: SortState[];
-
-  /** Any filters to apply to the list. */
-  @Input() filters: FilterState[];
-
-  /** The pagination state for the list. */
-  @Input() paging: PagingState;
+  /** The state of the list. */
+  @Input() state: ListState;
 
   /** Emits errors during refreshing the list. */
   @Output() error = new EventEmitter();
 
   /** Initialize the component with defaults. */
   ngOnInit() {
-    if (!Array.isArray(this.sorting)) {
-      this.sorting = [];
-    }
+    this.state = {
+      filters: [],
+      sorting: [],
+      visible: [],
 
-    if (!Array.isArray(this.filters)) {
-      this.filters = [];
-    }
+      ... this.state
+    };
+
+    this.refreshVisibility();
   }
 
   /**
    * Clear the sorting of the list.
    *
-   * @param refresh Whether or not to refresh the lsit after. Defaults to true.
+   * @param refresh Whether or not to refresh the list after. Defaults to true.
    */
   clearSorting(refresh: boolean = true) {
-    this.sorting = [];
+    this.state.sorting = [];
+    this.refreshVisibility();
 
     if (refresh) {
       this.refresh();
@@ -62,10 +59,11 @@ export class ListComponent {
   /**
    * Clear the filtering of the list.
    *
-   * @param refresh Whether or not to refresh the lsit after. Defaults to true.
+   * @param refresh Whether or not to refresh the list after. Defaults to true.
    */
   clearFiltering(refresh: boolean = true) {
-    this.filters = [];
+    this.state.filters = [];
+    this.refreshVisibility();
 
     if (refresh) {
       this.refresh();
@@ -78,18 +76,19 @@ export class ListComponent {
    * @param map A function that takes the model's properties and returns
    *            the property to sort by.
    * @param order The sort order. Defaults to ascending.
-   * @param refresh Whether or not to refresh the lsit after. Defaults to true.
+   * @param refresh Whether or not to refresh the list after. Defaults to true.
    */
-  sort(map: (props: ModelProperties<any>) => Property<any>, order?: SortOrder, refresh: boolean  = true) {
+  sort(map: (props: ModelProperties<any>) => Property<any>, order?: SortOrder, refresh: boolean = true) {
     let props = getProperties(this.def.model);
     let prop = map(props);
-    let sorting = _.filter(this.sorting, s => s.prop.toString() !== prop.toString());
+    let sorting = _.filter(this.state.sorting, s => s.prop.toString() !== prop.toString());
 
     if (!order) {
       order = SortOrder.ASC;
     }
 
-    this.sorting.push({ prop, order });
+    this.state.sorting = sorting.concat([{ prop, order }]);
+    this.refreshVisibility();
 
     if (refresh) {
       this.refresh();
@@ -110,7 +109,8 @@ export class ListComponent {
     let props = getProperties(this.def.model);
     let prop = map(props);
 
-    this.filters.push({ prop, ... filter as FilterState });
+    this.state.filters.push({ prop, ... filter as FilterState });
+    this.refreshVisibility();
 
     if (refresh) {
       this.refresh();
@@ -128,7 +128,8 @@ export class ListComponent {
    * @param refresh Whether or not to refresh the list after. Defaults to true.
    */
   removeFilter(filter: FilterState, refresh: boolean = true) {
-    this.filters = _.without(this.filters, filter);
+    this.state.filters = _.without(this.state.filters, filter);
+    this.refreshVisibility();
 
     if (refresh) {
       this.refresh();
@@ -141,7 +142,7 @@ export class ListComponent {
    * @returns Whether pagination is enabled.
    */
   hasPaging(): boolean {
-    return this.paging && typeof (this.paging) === 'object';
+    return this.state.paging && typeof (this.state.paging) === 'object';
   }
 
   /**
@@ -153,10 +154,28 @@ export class ListComponent {
    */
   setPage(page: number, refresh: boolean = true) {
     if (this.hasPaging()) {
-      let paging = this.paging;
+      let paging = this.state.paging;
 
       paging.page = Math.max(Math.min(page, paging.numPages), 1);
     }
+
+    this.refreshVisibility();
+
+    if (refresh) {
+      this.refresh();
+    }
+  }
+
+  /**
+   * Set the current view mode of the list.
+   *
+   * @param mode The view mode ID. This should correspond to a mode
+   *             ID on the list definition.
+   * @param refresh Whether or not to refresh the list after. Defaults to true.
+   */
+  setMode(mode: ListMode, refresh: boolean = true) {
+    this.state.mode = mode.id;
+    this.refreshVisibility();
 
     if (refresh) {
       this.refresh();
@@ -171,7 +190,7 @@ export class ListComponent {
    */
   nextPage(refresh: boolean = true) {
     if (this.hasPaging()) {
-      let paging = this.paging;
+      let paging = this.state.paging;
 
       this.setPage(paging.page + 1, refresh);
     }
@@ -185,7 +204,7 @@ export class ListComponent {
    */
   previousPage(refresh: boolean = true) {
     if (this.hasPaging()) {
-      let paging = this.paging;
+      let paging = this.state.paging;
 
       this.setPage(paging.page - 1, refresh);
     }
@@ -203,12 +222,20 @@ export class ListComponent {
     let self = this;
 
     this.def
-      .refresh(this.filters, this.sorting, this.paging)
+      .refresh(this.state)
       .then(data => {
         self.data = data;
       })
       .catch(err => {
         self.error.emit(err);
       });
+  }
+
+  /**
+   * Refresh the visible properties on the screen
+   * from the list state.
+   */
+  refreshVisibility() {
+    this.state.visible = this.def.visible(this.state, getProperties(this.def.model));
   }
 }

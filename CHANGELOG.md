@@ -1,3 +1,11 @@
+# 0.4.0
+
+* Fix missing decorators
+* Add list modes
+* Add `plural` and `singular` to the `BaseDefinition` interface
+* Move all list sub-states into a new `ListState` interface, which is passed around
+  instead of the sub-states
+
 # 0.3.0
 
 * Add `@label` decorator for setting model property labels
