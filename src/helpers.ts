@@ -140,6 +140,8 @@ export class Definitions {
       ... base,
 
       modes: [],
+
+      /** The default visibility selector. It displays everything. */
       visible(state: ListState, props: ModelProperties<T>): Property<any>[] {
         return _.values(props);
       },
