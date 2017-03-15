@@ -20,6 +20,7 @@
     "Zack Corr <zack@z0w0.me> (http://z0w0.me)"
   ],
   "scripts": {
+    "prepush": "npm run lint",
     "prepublish": "ngc",
     "build": "ngc",
     "docs": "compodoc -d docs -p tsconfig.json",
@@ -46,6 +47,7 @@
     "@types/reflect-metadata": "^0.0.5",
     "chai": "^3.5.0",
     "compodoc": "0.0.41",
+    "husky": "^0.13.2",
     "mocha": "^3.2.0",
     "modelsafe": "^0.3.0",
     "reflect-metadata": "^0.1.8",
