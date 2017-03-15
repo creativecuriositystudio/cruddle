@@ -33,6 +33,11 @@ export class Definitions {
       let filterable = getFilterable(model, key);
       let sortable = getSortable(model, key);
 
+      // Fallback to the (non-friendly) key for label.
+      if (!label) {
+        label = path;
+      }
+
       if (prop instanceof Attribute) {
         // We cast as any to get the private assoc type.
         let type = (prop as any).type;
@@ -41,8 +46,8 @@ export class Definitions {
           prop,
           path,
           type,
+          label,
 
-          label: path,
           sortable: false,
           filterable: false
         });
@@ -56,8 +61,8 @@ export class Definitions {
           prop,
           path,
           type,
+          label,
 
-          label: path,
           sortable: false,
           filterable: false
         });

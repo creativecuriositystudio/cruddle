@@ -1,3 +1,8 @@
+# 0.5.1
+
+* Action and list mode styles are now optional
+* Fix label not being used when provided
+
 # 0.5.0
 
 * Fix missing decorators

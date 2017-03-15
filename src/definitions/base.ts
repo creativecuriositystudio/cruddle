@@ -61,7 +61,7 @@ export interface ActionDefinition {
    * In other words, this could be any arbitrary value
    * but a good recommendation would be to have it as a list of HTML classes.
    */
-  style: string;
+  style?: string;
 }
 
 /**

@@ -24,7 +24,7 @@ export interface ListMode {
   id: string;
 
   /** The style of the view mode. */
-  style: string;
+  style?: string;
 
   /** The label of the view mode. */
   label: string;
