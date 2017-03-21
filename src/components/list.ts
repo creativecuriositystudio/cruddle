@@ -1,7 +1,8 @@
 import * as _ from 'lodash';
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
 import { Model, ModelProperties, Property, getProperties } from 'modelsafe';
 
+import { BaseComponent } from './base';
 import { ListDefinition, ListState, ListMode,
          FilterState, SortOrder } from '../definitions/list';
 
@@ -16,7 +17,7 @@ import { ListDefinition, ListState, ListMode,
     </div>
   `
 })
-export class ListComponent {
+export class ListComponent extends BaseComponent implements OnInit {
   /** The definition of the list. */
   @Input() def: ListDefinition<any>;
 
@@ -31,15 +32,13 @@ export class ListComponent {
 
   /** Initialize the component with defaults. */
   ngOnInit() {
+    this.visible = this.def.visible;
     this.state = {
       filters: [],
       sorting: [],
-      visible: [],
 
       ... this.state
     };
-
-    this.refreshVisibility();
   }
 
   /**
@@ -49,7 +48,6 @@ export class ListComponent {
    */
   clearSorting(refresh: boolean = true) {
     this.state.sorting = [];
-    this.refreshVisibility();
 
     if (refresh) {
       this.refresh();
@@ -63,7 +61,6 @@ export class ListComponent {
    */
   clearFiltering(refresh: boolean = true) {
     this.state.filters = [];
-    this.refreshVisibility();
 
     if (refresh) {
       this.refresh();
@@ -81,14 +78,13 @@ export class ListComponent {
   sort(map: (props: ModelProperties<any>) => Property<any>, order?: SortOrder, refresh: boolean = true) {
     let props = getProperties(this.def.model);
     let prop = map(props);
-    let sorting = _.filter(this.state.sorting, s => s.prop.toString() !== prop.toString());
+    let sorting = _.filter(this.state.sorting, s => s.path !== prop.toString());
 
     if (!order) {
       order = SortOrder.ASC;
     }
 
-    this.state.sorting = sorting.concat([{ prop, order }]);
-    this.refreshVisibility();
+    this.state.sorting = sorting.concat([{ path: prop.toString(), order }]);
 
     if (refresh) {
       this.refresh();
@@ -110,7 +106,6 @@ export class ListComponent {
     let prop = map(props);
 
     this.state.filters.push({ prop, ... filter as FilterState });
-    this.refreshVisibility();
 
     if (refresh) {
       this.refresh();
@@ -129,7 +124,6 @@ export class ListComponent {
    */
   removeFilter(filter: FilterState, refresh: boolean = true) {
     this.state.filters = _.without(this.state.filters, filter);
-    this.refreshVisibility();
 
     if (refresh) {
       this.refresh();
@@ -159,8 +153,6 @@ export class ListComponent {
       paging.page = Math.max(Math.min(page, paging.numPages), 1);
     }
 
-    this.refreshVisibility();
-
     if (refresh) {
       this.refresh();
     }
@@ -175,7 +167,6 @@ export class ListComponent {
    */
   setMode(mode: ListMode, refresh: boolean = true) {
     this.state.mode = mode.id;
-    this.refreshVisibility();
 
     if (refresh) {
       this.refresh();
@@ -229,13 +220,5 @@ export class ListComponent {
       .catch(err => {
         self.error.emit(err);
       });
-  }
-
-  /**
-   * Refresh the visible properties on the screen
-   * from the list state.
-   */
-  refreshVisibility() {
-    this.state.visible = this.def.visible(this.state, getProperties(this.def.model));
   }
 }

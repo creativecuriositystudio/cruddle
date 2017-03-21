@@ -33,7 +33,7 @@ export interface ListMode {
 /** The state of sorting a property on a list. */
 export interface SortState {
   /** The property that is being sorted. */
-  prop: Property<any>;
+  path: string;
 
   /** The sort order. */
   order: SortOrder;
@@ -41,8 +41,8 @@ export interface SortState {
 
 /** The state of filtering a property on a list. */
 export interface FilterState {
-  /** The property being filtered on. */
-  prop: Property<any>;
+  /** The property path being filtered on. */
+  path: string;
 
   /**
    * The operator being used to filter by.
@@ -82,14 +82,6 @@ export interface ListState {
   /** The pagination state of the list. */
   paging?: PagingState;
 
-  /**
-   * Properties of the relevant model that have been
-   * selected to be visible. If the list definition
-   * has no custom `visible` function, this will default
-   * to all fields.
-   */
-  visible: Property<any>[];
-
   /** The current list view mode. */
   mode?: string;
 }
@@ -105,11 +97,4 @@ export interface ListDefinition<T extends Model> extends BaseDefinition<T> {
 
   /** The callback for refreshing the list data from the current list state. */
   refresh(state: ListState): Promise<T[]>;
-
-  /**
-   * Select the properties that should be visible on the list
-   * based off the list state. This is automatically called whenever
-   * the list state changes.
-   */
-  visible?(state: ListState, props: ModelProperties<T>): [Property<any>];
 }

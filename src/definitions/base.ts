@@ -13,12 +13,6 @@ import { Property, Model, ModelConstructor,
  * extra metadata like sorting and filtering.
  */
 export interface PropertyDefinition {
-  /**
-   * The property this definition is for.
-   * If not set, then path will be used as the source of truth.
-   */
-  prop?: Property<any>;
-
   /** The path of the attribute on the model. */
   path: string;
 
@@ -107,23 +101,30 @@ export interface BaseDefinition<T extends Model> {
    * The actions that can be done on the model.
    * These is global to all instances.
    */
-  actions: GlobalActionDefinition[];
+  actions?: GlobalActionDefinition[];
 
   /**
    * The contextual actions that can be done on the model.
    * These act on a specific instance.
    */
-  contextualActions: ContextualActionDefinition<T>[];
+  contextualActions?: ContextualActionDefinition<T>[];
 
   /**
    * The attributes of the definition.
    * These are usually generated from a model but can be manually written.
    */
-  attrs: AttributeDefinition[];
+  attrs?: AttributeDefinition[];
 
   /**
    * The associations of the definition.
    * These are usually generated from a model but can be manually written.
    */
-  assocs: AssociationDefinition[];
+  assocs?: AssociationDefinition[];
+
+  /**
+   * The list of property paths that should be visible by default.
+   * By default this shows all properties except ones that have been marked
+   * hidden with the `@visible` decorator, i.e. `@visible(false)`.
+   */
+  visible: string[];
 }

@@ -1,3 +1,12 @@
+# 0.6.0
+
+* Add `visible` decorator for managing whether a property is visible by default
+* Moved all of the list state to use property paths instead of properties,
+  to support non-ModelSafe properties
+* Remove the `visible` function on list definition, instead have a `visible` array
+  of all property paths that should be visible on each component
+* Add `BaseComponent` that other components extend from
+
 # 0.5.1
 
 * Action and list mode styles are now optional

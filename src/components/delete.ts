@@ -1,6 +1,7 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
 import { Model } from 'modelsafe';
 
+import { BaseComponent } from './base';
 import { DeleteDefinition } from '../definitions/delete';
 
 /**
@@ -14,7 +15,7 @@ import { DeleteDefinition } from '../definitions/delete';
     </div>
   `
 })
-export class DeleteComponent {
+export class DeleteComponent extends BaseComponent implements OnInit {
   /** The definition of the delete screen. */
   @Input() def: DeleteDefinition<any>;
 
@@ -23,6 +24,11 @@ export class DeleteComponent {
 
   /** Emits errors during deleting the instance. */
   @Output() error = new EventEmitter();
+
+  /** Initialize the component. */
+  ngOnInit() {
+    this.visible = this.def.visible;
+  }
 
   /** Proceed with deleting the instance. */
   delete() {

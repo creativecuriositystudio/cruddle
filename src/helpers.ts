@@ -5,7 +5,7 @@ import { getProperties, getModelOptions, Model, ModelConstructor, ModelPropertie
 
 import { BaseDefinition, DeleteDefinition, FormDefinition,
          ListDefinition, ReadDefinition, ListState } from './definitions';
-import { getLabel, getFilterable, getSortable } from './metadata';
+import { getLabel, getFilterable, getSortable, getVisible } from './metadata';
 
 /**
  * A set of helpers for generating the CRUDL definitions
@@ -25,6 +25,7 @@ export class Definitions {
     let props = getProperties(model);
     let attrs = [];
     let assocs = [];
+    let visible = [];
 
     for (let key of Object.keys(props)) {
       let prop = props[key] as Property<any>;
@@ -38,33 +39,34 @@ export class Definitions {
         label = path;
       }
 
+      if (getVisible(model, key)) {
+        visible.push(path);
+      }
+
       if (prop instanceof Attribute) {
-        // We cast as any to get the private assoc type.
+        // FIXME: We cast as any to get the private assoc type.
         let type = (prop as any).type;
 
         attrs.push({
-          prop,
           path,
           type,
           label,
-
-          sortable: false,
-          filterable: false
+          sortable,
+          filterable
         });
       }
 
       if (prop instanceof Association) {
-        // We cast as any to get the private assoc type.
+        // FIXME: We cast as any to get the private assoc type.
         let type = (prop as any).type;
 
         assocs.push({
-          prop,
           path,
           type,
           label,
 
-          sortable: false,
-          filterable: false
+          sortable,
+          filterable
         });
       }
     }
@@ -75,6 +77,7 @@ export class Definitions {
       plural,
       attrs,
       assocs,
+      visible,
 
       actions: [],
       contextualActions: [],

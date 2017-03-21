@@ -1,6 +1,7 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Model } from 'modelsafe';
 
+import { BaseComponent } from './base';
 import { ReadDefinition } from '../definitions/read';
 
 /**
@@ -14,10 +15,15 @@ import { ReadDefinition } from '../definitions/read';
     </div>
   `
 })
-export class ReadComponent {
+export class ReadComponent extends BaseComponent implements OnInit {
   /** The definition of the read/view screen. */
   @Input() def: ReadDefinition<any>;
 
   /** The model instance data that is being read/viewed. */
   @Input() data: any;
+
+  /** Initialize the component. */
+  ngOnInit() {
+    this.visible = this.def.visible;
+  }
 }

@@ -1,6 +1,7 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
 import { Model } from 'modelsafe';
 
+import { BaseComponent } from './base';
 import { FormDefinition } from '../definitions/form';
 
 /**
@@ -14,7 +15,7 @@ import { FormDefinition } from '../definitions/form';
     </div>
   `
 })
-export class FormComponent {
+export class FormComponent extends BaseComponent implements OnInit {
   /** The definition of the form screen. */
   @Input() def: FormDefinition<any>;
 
@@ -27,6 +28,10 @@ export class FormComponent {
   /** Emits errors during saving the instance. */
   @Output() error = new EventEmitter();
 
+  /** Initialize the component. */
+  ngOnInit() {
+    this.visible = this.def.visible;
+  }
   /**
    * Save the model instance. This should do any validation necessary and
    * create or instance the model depending on whether the instance already existed.

@@ -9,6 +9,9 @@ export const MODEL_ATTR_SORTABLE_META_KEY = 'cruddle:sortable';
 /** The meta key for a model property's sortable state. */
 export const MODEL_ATTR_FILTERABLE_META_KEY = 'cruddle:filterable';
 
+/** The meta key for a model property's visible state. */
+export const MODEL_ATTR_VISIBLE_META_KEY = 'cruddle:visible';
+
 /**
  * Define the label to be displayed for an property on a ModelSafe model constructor.
  *
@@ -40,6 +43,17 @@ export function defineFilterable(ctor: Object, key: string | symbol, filterable:
  */
 export function defineSortable(ctor: Object, key: string | symbol, sortable: boolean) {
   Reflect.defineMetadata(MODEL_ATTR_SORTABLE_META_KEY, sortable, ctor, key);
+}
+
+/**
+ * Define whether an property should be visible on a ModelSafe model constructor.
+ *
+ * @param ctor The model constructor.
+ * @param key The property's property key.
+ * @param options Whether the property should be visible.
+ */
+export function defineVisible(ctor: Object, key: string | symbol, visible: boolean) {
+  Reflect.defineMetadata(MODEL_ATTR_VISIBLE_META_KEY, visible, ctor, key);
 }
 
 /**
@@ -76,6 +90,20 @@ export function getFilterable(ctor: Function, key: string | symbol): boolean {
 }
 
 /**
+ * Get the visible state of an property on a ModelSafe model constructor.
+ * Defaults to `true` if the visibility has not been decorated.
+ *
+ * @param ctor The model constructor.
+ * @param key The property's property key.
+ * @returns Whether the property should be visible.
+ */
+export function getVisible(ctor: Function, key: string | symbol): boolean {
+  let visible = Reflect.getMetadata(MODEL_ATTR_VISIBLE_META_KEY, ctor.prototype, key);
+
+  return typeof (visible) !== 'boolean' ? true : visible;
+}
+
+/**
  * A decorator for attribute labels.
  * By default attribute labels are the same as their key,
  * which isn't very user-friendly. Labels can be manually
@@ -105,4 +133,14 @@ export function sortable(value: boolean) {
  */
 export function filterable(value: boolean) {
   return (ctor: Object, key: string | symbol) => defineFilterable(ctor, key, value);
+}
+
+/**
+ * A decorator for attribute visibility.
+ * By default attributes are visibile.
+ *
+ * @param value Whether the attribute is visible.
+ */
+export function visible(value: boolean) {
+  return (ctor: Object, key: string | symbol) => defineVisible(ctor, key, value);
 }
