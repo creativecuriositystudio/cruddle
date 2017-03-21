@@ -1,3 +1,7 @@
+# 0.6.2
+
+* Fix `visible` using older function form on list components
+
 # 0.6.1
 
 * Fix the `visible` input on components to only default if no visible was provided to

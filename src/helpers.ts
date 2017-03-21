@@ -149,11 +149,6 @@ export class Definitions {
 
       modes: [],
 
-      /** The default visibility selector. It displays everything. */
-      visible(state: ListState, props: ModelProperties<T>): Property<any>[] {
-        return _.values(props);
-      },
-
       ... overrides
     } as ListDefinition<T>;
   }
