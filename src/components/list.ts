@@ -32,7 +32,10 @@ export class ListComponent extends BaseComponent implements OnInit {
 
   /** Initialize the component with defaults. */
   ngOnInit() {
-    this.visible = this.def.visible;
+    if (!Array.isArray(this.visible)) {
+      this.visible = this.def.visible;
+    }
+    
     this.state = {
       filters: [],
       sorting: [],

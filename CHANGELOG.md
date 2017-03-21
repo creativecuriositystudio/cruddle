@@ -1,3 +1,8 @@
+# 0.6.1
+
+* Fix the `visible` input on components to only default if no visible was provided to
+  the component manually
+
 # 0.6.0
 
 * Add `visible` decorator for managing whether a property is visible by default
