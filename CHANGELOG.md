@@ -1,3 +1,7 @@
+# 0.6.3
+
+* Bump with >= Angular 4.0.0-rc.6 requirement
+
 # 0.6.2
 
 * Fix `visible` using older function form on list components
