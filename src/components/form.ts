@@ -2,7 +2,7 @@ import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
 import { Model } from 'modelsafe';
 
 import { BaseComponent } from './base';
-import { FormDefinition } from '../definitions/form';
+import { FormDefinition, FormError, FormState } from '../definitions/form';
 
 /**
  * The Cruddle form component that handles the create/update screen functionality.
@@ -25,23 +25,51 @@ export class FormComponent extends BaseComponent implements OnInit {
    */
   @Input() data: any;
 
+  /** The state of the form. */
+  @Input() state: FormState;
+
   /** Emits errors during saving the instance. */
   @Output() error = new EventEmitter();
 
   /** Initialize the component. */
   ngOnInit() {
     this.visible = this.def.visible;
+    this.state = {
+      errors: {},
+      error: null
+    };
   }
+
   /**
    * Save the model instance. This should do any validation necessary and
    * create or instance the model depending on whether the instance already existed.
+   *
+   * If the `save` on the form definition throws a form error,
+   * this will automatically populate the form state with the geneeral error message
+   * and property-specific error message.
    */
-  save() {
-    let self = this;
+  async save() {
+    this.state.errors = {};
+    this.state.error = null;
 
-    this.def.save(this.data)
-      .catch(err => {
-        self.error.emit(err);
-      });
+    try {
+      this.data = await this.def.save(this.data);
+    } catch (err) {
+      if (err instanceof FormError) {
+        this.state.errors = err.errors;
+        this.state.error = err.message;
+      }
+
+      this.error.emit(err);
+    }
+  }
+
+  /** Cancel/navigate away from the form screen. */
+  async cancel() {
+    try {
+      await this.def.cancel(this.data);
+    } catch (err) {
+      this.error.emit(err);
+    }
   }
 }

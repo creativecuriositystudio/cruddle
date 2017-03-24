@@ -31,12 +31,11 @@ export class DeleteComponent extends BaseComponent implements OnInit {
   }
 
   /** Proceed with deleting the instance. */
-  delete() {
-    let self = this;
-
-    this.def.delete(this.data)
-      .catch(err => {
-        self.error.emit(err);
-      });
+  async delete() {
+    try {
+      await this.def.delete(this.data);
+    } catch (err) {
+      this.error.emit(err);
+    }
   }
 }

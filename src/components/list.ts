@@ -177,6 +177,34 @@ export class ListComponent extends BaseComponent implements OnInit {
   }
 
   /**
+   * Move to the first page.
+   * This will do nothing if paging information has not been provided.
+   *
+   * @param refresh Whether or not to refresh the list after. Defaults to true.
+   */
+  firstPage(refresh: boolean = true) {
+    if (this.hasPaging()) {
+      let paging = this.state.paging;
+
+      this.setPage(1, refresh);
+    }
+  }
+
+  /**
+   * Move to the last page.
+   * This will do nothing if paging information has not been provided.
+   *
+   * @param refresh Whether or not to refresh the list after. Defaults to true.
+   */
+  lastPage(refresh: boolean = true) {
+    if (this.hasPaging()) {
+      let paging = this.state.paging;
+
+      this.setPage(paging.numPages, refresh);
+    }
+  }
+
+  /**
    * Move to the next page.
    * This will do nothing if paging information has not been provided.
    *
@@ -212,16 +240,11 @@ export class ListComponent extends BaseComponent implements OnInit {
    * to allow for users of the library to handle data refresh errors
    * (whether it be from an API or local storage) appropiately.
    */
-  refresh() {
-    let self = this;
-
-    this.def
-      .refresh(this.state)
-      .then(data => {
-        self.data = data;
-      })
-      .catch(err => {
-        self.error.emit(err);
-      });
+  async refresh() {
+    try {
+      this.data = await this.def.refresh(this.state);
+    } catch (err) {
+      this.error.emit(err);
+    }
   }
 }

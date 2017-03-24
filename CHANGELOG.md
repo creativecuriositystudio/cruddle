@@ -1,3 +1,11 @@
+# 0.7.0
+
+* Add `firstPage`/`lastPage` to the list component
+* Add tracking of form errors to the form component, and a `FormError` which should be thrown by the `save`
+  function on the form definition when validation errors are received from whatever backend the form
+  saved to
+* Add `cancel` function to the form definition
+
 # 0.6.2
 
 * Fix `visible` using older function form on list components
@@ -35,7 +43,7 @@
 * Add `@filterable` decorator for setting model property filterability
 * Add `@sortable` decorator for setting model property sortability
 * Remove callback interfaces in favour of simply specifying the function type in the definitions
-* Add `setPage`/`nextPage`/`previousPage` to the list component for navigating pagination state.
+* Add `setPage`/`nextPage`/`previousPage` to the list component for navigating pagination state
 * Rename ASCENDING/DESCENDING to ASC/DESC
 
 # 0.2.0
