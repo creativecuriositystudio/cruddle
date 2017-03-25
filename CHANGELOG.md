@@ -1,3 +1,8 @@
+# 0.9.0
+
+* Add `readOnly` support - pulls across from ModelSafe (introduced in ModelSafe 0.6.0)
+* The `values` of a property is automatically populated with defaults if it's a ModelSafe ENUM attribute
+
 # 0.8.1
 
 * Move to Angular 4.0.0 stable

@@ -1600,9 +1600,9 @@ mocha@^3.2.0:
     mkdirp "0.5.1"
     supports-color "3.1.2"
 
-"modelsafe@>= 0.5.2":
-  version "0.5.2"
-  resolved "https://registry.yarnpkg.com/modelsafe/-/modelsafe-0.5.2.tgz#7192368eee1f7a0f04a65b2eccffce423ee4b983"
+"modelsafe@>= 0.6.0":
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/modelsafe/-/modelsafe-0.6.0.tgz#bad869adaf8dfd56cd93471d69ed9a3f332ee274"
   dependencies:
     "@types/lodash" "^4.14.53"
     "@types/reflect-metadata" "0.0.5"

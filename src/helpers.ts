@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
 import { pluralize, singularize } from 'inflection';
-import { getProperties, getModelOptions, Model, ModelConstructor, ModelProperties,
-         Property, Attribute, Association } from 'modelsafe';
+import { getProperties, getModelOptions, Model, ModelConstructor, ModelProperties, EnumAttributeTypeOptions,
+         Property, Attribute, Association, InternalAttributeType, getAttributes, getAssociations } from 'modelsafe';
 
 import { BaseDefinition, DeleteDefinition, FormDefinition,
          ListDefinition, ReadDefinition, ListState } from './definitions';
@@ -20,53 +20,68 @@ export class Definitions {
    */
   protected static base<T extends Model>(model: ModelConstructor<T>, overrides?: Partial<BaseDefinition<T>>): BaseDefinition<T> {
     let options = getModelOptions(model);
+    let attrs = getAttributes(model);
+    let assocs = getAssociations(model);
     let singular = singularize(_.camelCase(options.name));
     let plural = pluralize(_.camelCase(options.name));
-    let props = getProperties(model);
-    let attrs = [];
-    let assocs = [];
     let visible = [];
+    let mappedAttrs = [];
+    let mappedAssocs = [];
 
-    for (let key of Object.keys(props)) {
-      let prop = props[key] as Property<any>;
+    for (let key of Object.keys(attrs)) {
+      let attr = attrs[key];
       let propOptions = getPropertyOptions(model, key);
-      let path = prop.toString();
 
       if (propOptions.visible) {
-        visible.push(path);
+        visible.push(key);
       }
 
-      if (prop instanceof Attribute) {
-        // FIXME: We cast as any to get the private assoc type.
-        let type = (prop as any).type;
+      let attrOptions = {
+        path: key,
+        type: attr.type,
+        readOnly: attr.readOnly,
 
-        attrs.push({
-          path,
-          type,
+        ... propOptions
+      };
 
-          ... propOptions
+      // Check if the internal attribute type is ENUM, if so pre-populate values with relevant enum variants.
+      if (attr.type.type === InternalAttributeType.ENUM) {
+        attrOptions.values = (<EnumAttributeTypeOptions> attr.type.options).values.map((v: any) => {
+          return {
+            label: v,
+            value: v
+          };
         });
       }
 
-      if (prop instanceof Association) {
-        // FIXME: We cast as any to get the private assoc type.
-        let type = (prop as any).type;
+      mappedAttrs.push(attrOptions);
+    }
 
-        assocs.push({
-          path,
-          type,
+    for (let key of Object.keys(assocs)) {
+      let assoc = assocs[key];
+      let propOptions = getPropertyOptions(model, key);
 
-          ... propOptions
-        });
+      if (propOptions.visible) {
+        visible.push(key);
       }
+
+      let assocOptions = {
+        path: key,
+        type: assoc.type,
+        readOnly: assoc.readOnly,
+
+        ... propOptions
+      };
+
+      mappedAssocs.push(assocOptions);
     }
 
     return {
       model,
       singular,
       plural,
-      attrs,
-      assocs,
+      attrs: mappedAttrs,
+      assocs: mappedAssocs,
       visible,
 
       actions: [],

@@ -45,6 +45,9 @@ export interface PropertyDefinition {
   /** Any data for the property. */
   data?: any;
 
+  /** Whether the property is read-only. */
+  readOnly?: boolean;
+
   /** The possible values for the property (mainly for enums or associations). */
   values?: PropertyValueDefinition[] | Promise<PropertyValueDefinition>;
 }
