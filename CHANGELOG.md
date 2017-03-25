@@ -1,4 +1,4 @@
-# 0.7.0
+# 0.8.0
 
 * Rename `style` to `data` and make it `any`
 * Add `data` to attributes and associations for providing extra metadata (e.g. how to display the attribute)
@@ -7,10 +7,17 @@
   on the model directly
 * Add list of values to property definition for supporting of selecting a list of enum values or association values
 
+# 0.7.0
+
+* Add `firstPage`/`lastPage` to the list component
+* Add tracking of form errors to the form component, and a `FormError` which should be thrown by the `save`
+  function on the form definition when validation errors are received from whatever backend the form
+  saved to
+* Add `cancel` function to the form definition
+
 # 0.6.3
 
 * Bump with >= Angular 4.0.0-rc.6 requirement
-
 # 0.6.2
 
 * Fix `visible` using older function form on list components
@@ -48,7 +55,7 @@
 * Add `@filterable` decorator for setting model property filterability
 * Add `@sortable` decorator for setting model property sortability
 * Remove callback interfaces in favour of simply specifying the function type in the definitions
-* Add `setPage`/`nextPage`/`previousPage` to the list component for navigating pagination state.
+* Add `setPage`/`nextPage`/`previousPage` to the list component for navigating pagination state
 * Rename ASCENDING/DESCENDING to ASC/DESC
 
 # 0.2.0
