@@ -2,6 +2,20 @@ import { Property, Model, ModelConstructor,
          AttributeType, AssociationType } from 'modelsafe';
 
 /**
+ * The value a property could be.
+ * This is best used for enums, such as a status field or alternatively selecting an association.
+ *
+ * It's best to think about this as an option inside a select box.
+ */
+export interface PropertyValueDefinition {
+  /** The label for the possible attribute value. */
+  label: string;
+
+  /** The actual value to set the attribute to if this was selected. */
+  value: any;
+}
+
+/**
  * A property of a model. This can be either an attribute
  * or association. It's important that both are captured,
  * since filtering and sorting by associations is
@@ -24,12 +38,22 @@ export interface PropertyDefinition {
 
   /** Whether the property is filterable. Defaults to false. */
   filterable?: boolean;
+
+  /** Whether the property is visible by default. Defaults to true. */
+  visible?: boolean;
+
+  /** Any data for the property. */
+  data?: any;
+
+  /** The possible values for the property (mainly for enums or associations). */
+  values?: PropertyValueDefinition[] | Promise<PropertyValueDefinition>;
 }
 
 /** The definition of an attribute, which is also a property. */
 export interface AttributeDefinition extends PropertyDefinition {
   /** The attribute type. */
   type: AttributeType;
+
 }
 
 /** The definition of an association, which is also a property. */
@@ -49,13 +73,13 @@ export interface ActionDefinition {
   label: string;
 
   /**
-   * The style of the action. It's up to the user of this library
+   * Any data for the action. It's up to the user of this library
    * to interpret this and display the action correctly.
    *
    * In other words, this could be any arbitrary value
    * but a good recommendation would be to have it as a list of HTML classes.
    */
-  style?: string;
+  data?: any;
 }
 
 /**

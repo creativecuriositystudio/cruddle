@@ -1,3 +1,12 @@
+# 0.7.0
+
+* Rename `style` to `data` and make it `any`
+* Add `data` to attributes and associations for providing extra metadata (e.g. how to display the attribute)
+* Remove all the existing `get`/`define` metadata functions in favour of `getPropertyOptions` and `definePropertyOptions`
+* Add `@attr` and `@assoc` decorators to match ModelSafe so that you can define things like attribute definition data
+  on the model directly
+* Add list of values to property definition for supporting of selecting a list of enum values or association values
+
 # 0.6.3
 
 * Bump with >= Angular 4.0.0-rc.6 requirement

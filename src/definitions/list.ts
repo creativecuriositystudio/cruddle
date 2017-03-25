@@ -23,8 +23,8 @@ export interface ListMode {
    */
   id: string;
 
-  /** The style of the view mode. */
-  style?: string;
+  /** The data of the view mode. */
+  data?: any;
 
   /** The label of the view mode. */
   label: string;

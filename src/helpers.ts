@@ -5,7 +5,7 @@ import { getProperties, getModelOptions, Model, ModelConstructor, ModelPropertie
 
 import { BaseDefinition, DeleteDefinition, FormDefinition,
          ListDefinition, ReadDefinition, ListState } from './definitions';
-import { getLabel, getFilterable, getSortable, getVisible } from './metadata';
+import { getPropertyOptions } from './metadata';
 
 /**
  * A set of helpers for generating the CRUDL definitions
@@ -29,17 +29,10 @@ export class Definitions {
 
     for (let key of Object.keys(props)) {
       let prop = props[key] as Property<any>;
+      let propOptions = getPropertyOptions(model, key);
       let path = prop.toString();
-      let label = getLabel(model, key);
-      let filterable = getFilterable(model, key);
-      let sortable = getSortable(model, key);
 
-      // Fallback to the (non-friendly) key for label.
-      if (!label) {
-        label = path;
-      }
-
-      if (getVisible(model, key)) {
+      if (propOptions.visible) {
         visible.push(path);
       }
 
@@ -50,9 +43,8 @@ export class Definitions {
         attrs.push({
           path,
           type,
-          label,
-          sortable,
-          filterable
+
+          ... propOptions
         });
       }
 
@@ -63,10 +55,8 @@ export class Definitions {
         assocs.push({
           path,
           type,
-          label,
 
-          sortable,
-          filterable
+          ... propOptions
         });
       }
     }
