@@ -1,6 +1,9 @@
-# 0.8.0
+# 0.8.1
 
 * Move to Angular 4.0.0 stable
+
+# 0.8.0
+
 * Rename `style` to `data` and make it `any`
 * Add `data` to attributes and associations for providing extra metadata (e.g. how to display the attribute)
 * Remove all the existing `get`/`define` metadata functions in favour of `getPropertyOptions` and `definePropertyOptions`
