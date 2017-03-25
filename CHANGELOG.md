@@ -1,5 +1,6 @@
 # 0.8.0
 
+* Move to Angular 4.0.0 stable
 * Rename `style` to `data` and make it `any`
 * Add `data` to attributes and associations for providing extra metadata (e.g. how to display the attribute)
 * Remove all the existing `get`/`define` metadata functions in favour of `getPropertyOptions` and `definePropertyOptions`
@@ -18,6 +19,7 @@
 # 0.6.3
 
 * Bump with >= Angular 4.0.0-rc.6 requirement
+
 # 0.6.2
 
 * Fix `visible` using older function form on list components
