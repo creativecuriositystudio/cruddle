@@ -1,3 +1,7 @@
+# 0.9.1
+
+* Fix default property values overriding manually provided values
+
 # 0.9.0
 
 * Add `readOnly` support - pulls across from ModelSafe (introduced in ModelSafe 0.6.0)

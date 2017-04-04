@@ -44,8 +44,9 @@ export class Definitions {
         ... propOptions
       };
 
-      // Check if the internal attribute type is ENUM, if so pre-populate values with relevant enum variants.
-      if (attr.type.type === InternalAttributeType.ENUM) {
+      // Check if the internal attribute type is ENUM, if so pre-populate values with relevant enum variants
+      // (if no values have been provided manually).
+      if (!_.isArray(attrOptions.values) && attr.type.type === InternalAttributeType.ENUM) {
         attrOptions.values = (<EnumAttributeTypeOptions> attr.type.options).values.map((v: any) => {
           return {
             label: v,
