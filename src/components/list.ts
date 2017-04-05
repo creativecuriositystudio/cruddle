@@ -162,6 +162,25 @@ export class ListComponent extends BaseComponent implements OnInit {
   }
 
   /**
+   * Sets the number of items to display per page.
+   * This will do nothing if paging information has not been provided.
+   *
+   * @param itemsPerPage The number of items to display on a page. Must be at least 1.
+   * @param refresh Whether or not to refresh the list after. Defaults to true.
+   */
+  setItemsPerPage(itemsPerPage: number, refresh: boolean = true) {
+    if (this.hasPaging()) {
+      let paging = this.state.paging;
+
+      paging.itemsPerPage = Math.max(itemsPerPage, 1);
+    }
+
+    if (refresh) {
+      this.refresh();
+    }
+  }
+
+  /**
    * Set the current view mode of the list.
    *
    * @param mode The view mode ID. This should correspond to a mode

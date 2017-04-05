@@ -1,3 +1,7 @@
+# 0.10.0
+
+* Add `setItemsPerPage` to list component
+
 # 0.9.1
 
 * Fix default property values overriding manually provided values
