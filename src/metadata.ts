@@ -1,106 +1,108 @@
 import 'reflect-metadata';
 
-/** The meta key for a model property's label. */
-export const MODEL_ATTR_LABEL_META_KEY = 'cruddle:label';
+import { PropertyDescription, AttributeDescription, AssociationDescription } from './base';
 
-/** The meta key for a model property's sortable state. */
-export const MODEL_ATTR_SORTABLE_META_KEY = 'cruddle:sortable';
-
-/** The meta key for a model property's sortable state. */
-export const MODEL_ATTR_FILTERABLE_META_KEY = 'cruddle:filterable';
-
-/** The meta key for a model property's visible state. */
-export const MODEL_ATTR_VISIBLE_META_KEY = 'cruddle:visible';
+/** The meta key for a model's property options. */
+export const MODEL_PROP_OPTIONS_META_KEY = 'cruddle:propOptions';
 
 /**
- * Define the label to be displayed for an property on a ModelSafe model constructor.
+ * Define any property options on the model constructor.
  *
  * @param ctor The model constructor.
- * @param key The property's property key.
- * @param options The property label.
+ * @param key The property key.
+ * @param options The property options.
  */
-export function defineLabel(ctor: Object, key: string | symbol, label: string) {
-  Reflect.defineMetadata(MODEL_ATTR_LABEL_META_KEY, label, ctor, key);
+export function definePropertyOptions(ctor: Object, key: string | symbol, options: Partial<PropertyDescription>) {
+  options = {
+    ... Reflect.getMetadata(MODEL_PROP_OPTIONS_META_KEY, ctor, key),
+    ... options
+  };
+
+  Reflect.defineMetadata(MODEL_PROP_OPTIONS_META_KEY, options, ctor, key);
 }
 
 /**
- * Define whether an property should be filterable on a ModelSafe model constructor.
+ * Get the property options for a model constructor.
  *
  * @param ctor The model constructor.
- * @param key The property's property key.
- * @param options Whether the property should be filterable.
+ * @param key The property key.
+ * @returns The property options.
  */
-export function defineFilterable(ctor: Object, key: string | symbol, filterable: boolean) {
-  Reflect.defineMetadata(MODEL_ATTR_FILTERABLE_META_KEY, filterable, ctor, key);
+export function getPropertyOptions(ctor: Function, key: string | symbol): PropertyDescription {
+  return {
+    visible: true,
+    label: key,
+
+    ... Reflect.getMetadata(MODEL_PROP_OPTIONS_META_KEY, ctor.prototype, key)
+  };
 }
 
 /**
- * Define whether an property should be sortable on a ModelSafe model constructor.
+ * Define any attribute options on the model constructor.
  *
  * @param ctor The model constructor.
- * @param key The property's property key.
- * @param options Whether the property should be sortable.
+ * @param key The attribute's property key.
+ * @param options The attribute options.
  */
-export function defineSortable(ctor: Object, key: string | symbol, sortable: boolean) {
-  Reflect.defineMetadata(MODEL_ATTR_SORTABLE_META_KEY, sortable, ctor, key);
+export function defineAttributeOptions(ctor: Object, key: string | symbol, options: Partial<AttributeDescription>) {
+  return definePropertyOptions(ctor, key, options as Partial<PropertyDescription>);
 }
 
 /**
- * Define whether an property should be visible on a ModelSafe model constructor.
+ * Get the attribute options for a model constructor.
  *
  * @param ctor The model constructor.
- * @param key The property's property key.
- * @param options Whether the property should be visible.
+ * @param key The attribute key.
+ * @returns The attribute options.
  */
-export function defineVisible(ctor: Object, key: string | symbol, visible: boolean) {
-  Reflect.defineMetadata(MODEL_ATTR_VISIBLE_META_KEY, visible, ctor, key);
+export function getAttributeOptions(ctor: Function, key: string | symbol): AttributeDescription {
+  return getPropertyOptions(ctor, key) as AttributeDescription;
 }
 
 /**
- * Get the label of an property on a ModelSafe model constructor.
+ * Define any association options on the model constructor.
  *
  * @param ctor The model constructor.
- * @param key The property's property key.
- * @returns The label of the property.
+ * @param key The association's property key.
+ * @param options The attribute options.
  */
-export function getLabel(ctor: Function, key: string | symbol): string {
-  return Reflect.getMetadata(MODEL_ATTR_LABEL_META_KEY, ctor.prototype, key);
+export function defineAssociationOptions(ctor: Object, key: string | symbol, options: Partial<AssociationDescription>) {
+  return definePropertyOptions(ctor, key, options as Partial<PropertyDescription>);
 }
 
 /**
- * Get the sortable state of an property on a ModelSafe model constructor.
+ * Get the attribute options for a model constructor.
  *
  * @param ctor The model constructor.
- * @param key The property's property key.
- * @returns Whether the property should be sortable.
+ * @param key The attribute key.
+ * @returns The attribute options.
  */
-export function getSortable(ctor: Function, key: string | symbol): boolean {
-  return Reflect.getMetadata(MODEL_ATTR_SORTABLE_META_KEY, ctor.prototype, key);
+export function getAssociationOptions(ctor: Function, key: string | symbol): AssociationDescription {
+  return getPropertyOptions(ctor, key) as AssociationDescription;
 }
 
 /**
- * Get the filterable state of an property on a ModelSafe model constructor.
+ * A decorator for overriding attribute definition options.
+ * This can be used in conjunction with the ModelSafe
+ * `@attr` decorator to provide things not captured in the other
+ * Cruddle decorators, like definition data.
  *
- * @param ctor The model constructor.
- * @param key The property's property key.
- * @returns Whether the property should be filterable.
+ * @param value The attribute definition options to use.
  */
-export function getFilterable(ctor: Function, key: string | symbol): boolean {
-  return Reflect.getMetadata(MODEL_ATTR_FILTERABLE_META_KEY, ctor.prototype, key);
+export function attr(value: Partial<AttributeDescription>) {
+  return (ctor: Object, key: string | symbol) => defineAttributeOptions(ctor, key, value);
 }
 
 /**
- * Get the visible state of an property on a ModelSafe model constructor.
- * Defaults to `true` if the visibility has not been decorated.
+ * A decorator for overriding association definition options.
+ * This can be used in conjunction with the ModelSafe
+ * `@assoc` decorator to provide things not captured in the other
+ * Cruddle decorators, like definition data.
  *
- * @param ctor The model constructor.
- * @param key The property's property key.
- * @returns Whether the property should be visible.
+ * @param value The association definition options to use.
  */
-export function getVisible(ctor: Function, key: string | symbol): boolean {
-  let visible = Reflect.getMetadata(MODEL_ATTR_VISIBLE_META_KEY, ctor.prototype, key);
-
-  return typeof (visible) !== 'boolean' ? true : visible;
+export function assoc(value: Partial<AssociationDescription>) {
+  return (ctor: Object, key: string | symbol) => defineAssociationOptions(ctor, key, value);
 }
 
 /**
@@ -112,7 +114,7 @@ export function getVisible(ctor: Function, key: string | symbol): boolean {
  * @param value The attribute label.
  */
 export function label(value: string) {
-  return (ctor: Object, key: string | symbol) => defineLabel(ctor, key, value);
+  return (ctor: Object, key: string | symbol) => definePropertyOptions(ctor, key, { label: value });
 }
 
 /**
@@ -122,7 +124,7 @@ export function label(value: string) {
  * @param value Whether the attribute is sortable.
  */
 export function sortable(value: boolean) {
-  return (ctor: Object, key: string | symbol) => defineSortable(ctor, key, value);
+  return (ctor: Object, key: string | symbol) => definePropertyOptions(ctor, key, { sortable: value });
 }
 
 /**
@@ -132,7 +134,7 @@ export function sortable(value: boolean) {
  * @param value Whether the attribute is sortable.
  */
 export function filterable(value: boolean) {
-  return (ctor: Object, key: string | symbol) => defineFilterable(ctor, key, value);
+  return (ctor: Object, key: string | symbol) => definePropertyOptions(ctor, key, { filterable: value });
 }
 
 /**
@@ -142,5 +144,5 @@ export function filterable(value: boolean) {
  * @param value Whether the attribute is visible.
  */
 export function visible(value: boolean) {
-  return (ctor: Object, key: string | symbol) => defineVisible(ctor, key, value);
+  return (ctor: Object, key: string | symbol) => definePropertyOptions(ctor, key, { visible: value });
 }
