@@ -1,3 +1,29 @@
+# 0.10.0
+
+* Add `setItemsPerPage` to list component
+
+# 0.9.1
+
+* Fix default property values overriding manually provided values
+
+# 0.9.0
+
+* Add `readOnly` support - pulls across from ModelSafe (introduced in ModelSafe 0.6.0)
+* The `values` of a property is automatically populated with defaults if it's a ModelSafe ENUM attribute
+
+# 0.8.1
+
+* Move to Angular 4.0.0 stable
+
+# 0.8.0
+
+* Rename `style` to `data` and make it `any`
+* Add `data` to attributes and associations for providing extra metadata (e.g. how to display the attribute)
+* Remove all the existing `get`/`define` metadata functions in favour of `getPropertyOptions` and `definePropertyOptions`
+* Add `@attr` and `@assoc` decorators to match ModelSafe so that you can define things like attribute definition data
+  on the model directly
+* Add list of values to property definition for supporting of selecting a list of enum values or association values
+
 # 0.7.0
 
 * Add `firstPage`/`lastPage` to the list component
@@ -9,6 +35,7 @@
 # 0.6.3
 
 * Bump with >= Angular 4.0.0-rc.6 requirement
+
 # 0.6.2
 
 * Fix `visible` using older function form on list components
