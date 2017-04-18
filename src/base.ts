@@ -1,4 +1,5 @@
 import * as _ from 'lodash';
+import { EventEmitter } from '@angular/core';
 import { singularize, pluralize } from 'inflection';
 import { Observable } from 'rxjs';
 import { Model, ModelConstructor, AttributeType, AssociationType, getModelOptions,
@@ -8,7 +9,7 @@ import { getPropertyOptions } from './metadata';
 
 /** Describes a possible value for a property.  */
 export interface PropertyValueDescription {
-  /** The label of the property value .*/
+  /** The label of the property value. */
   label: string;
 
   /** The value to set the relevant property to if this value is selected. */
@@ -37,6 +38,9 @@ export interface PropertyDescription {
 
   /** Whether the property is read-only. */
   readOnly: boolean;
+
+  /** The ordering of the property. Negative numbers come first when sorting the properties. */
+  order: number;
 
   /** The possible values of a property. */
   values: PropertyValueDescription[] | Observable<PropertyValueDescription[]> | Promise<PropertyValueDescription[]>;
@@ -67,6 +71,12 @@ export interface ScreenDescription {
 
   /** The singularized camel-case form of the model name. */
   singular: string;
+
+  /**
+   * The paths of visible properties. By default this will be the list of attributes/associations
+   * on the model that have been marked as visible.
+   */
+  visible: string[];
 }
 
 /**
@@ -139,13 +149,22 @@ export interface ScreenState<T extends Model> extends ScreenDescription {
   alerts: AlertState[];
 
   /** The properties to display on the screen. */
-  props: PropertyState[];
+  props: Observable<PropertyState[]>;
 
   /** The actions on the screen. */
   actions: ActionState[];
 
   /** The contextual actions (instance-acting) on the screen. */
   contextualActions: ContextualActionState<T>[];
+
+  /**
+   * Set the properties that are visible on the screen.
+   * This will automatically re-emit the properties list (`props`)
+   * with the new list of visible properties with their relative ordering.
+   *
+   * @param paths The list of property paths that should be visible.
+   */
+  setVisible(paths: string[]): void;
 }
 
 /**
@@ -173,26 +192,53 @@ export abstract class ScreenDescriber<T extends Model> {
   /** Instantiates a state from the screen described by this class. */
   state(): ScreenState<T> {
     let screen = this.getScreen();
+    let visible = screen.visible;
+    let descriptions = _
+        .values<PropertyDescription>(this.getAttributes())
+        .concat(_.values<PropertyDescription>(this.getAssociations()));
 
-     return _.cloneDeep({
+    let propsEmitter = new EventEmitter();
+    let refreshProps = (visible: string[]) => {
+      return descriptions
+        .filter(desc => visible.indexOf(desc.path) !== -1)
+        .sort((a, b) => {
+          return (typeof (a.order) === 'number' ? a.order : 0) - (typeof (b.order) === 'number' ? b.order : 0);
+        });
+    };
+
+    propsEmitter.emit(refreshProps(visible));
+
+    return _.cloneDeep({
       alerts: [],
       plural: screen.plural,
       singular: screen.singular,
+      visible: screen.visible,
       actions: this.getActions() as ActionState[],
       contextualActions: this.getContextualActions() as ContextualActionState<T>[],
-      props: _
-        .values<PropertyState>(this.getAttributes())
-        .concat(_.values<PropertyState>(this.getAssociations()))
+      props: propsEmitter.asObservable(),
+
+      /** Set the properties that are visible. */
+      setVisible(paths: string[]) {
+        this.visible = paths;
+
+        propsEmitter.emit(refreshProps(paths));
+      }
     });
   }
 
   /** Get the misc. screen description. */
   getScreen(): ScreenDescription {
     let name = getModelOptions(this.model).name;
+    let descriptions = _
+      .values<PropertyDescription>(this.getAttributes())
+      .concat(_.values<PropertyDescription>(this.getAssociations()));
 
     return {
       plural: pluralize(_.camelCase(name)),
-      singular: singularize(_.camelCase(name))
+      singular: singularize(_.camelCase(name)),
+      visible: descriptions
+        .filter(desc => desc.visible)
+        .map(desc => desc.path)
     };
   }
 

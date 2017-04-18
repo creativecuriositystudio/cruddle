@@ -1,6 +1,6 @@
 {
   "name": "cruddle",
-  "version": "0.10.0",
+  "version": "1.0.0-alpha1",
   "main": "dist/index.js",
   "bugs": "https://github.com/creativecuriositystudio/cruddle/issues",
   "keywords": [
@@ -21,9 +21,11 @@
   ],
   "scripts": {
     "prepush": "npm run lint",
-    "prepublish": "ngc",
+    "prepublish": "npm run build",
+    "publish": "npm run docs:deploy",
     "build": "ngc",
     "docs": "compodoc -d docs -p tsconfig.json",
+    "docs:deploy": "npm run docs && gh-pages -d docs",
     "test": "mocha --opts mocha.opts",
     "test:auto": "mocha --opts mocha.opts --watch",
     "lint": "tslint --format stylish --type-check --project tsconfig.json",
@@ -48,6 +50,7 @@
     "@types/reflect-metadata": "^0.0.5",
     "chai": "^3.5.0",
     "compodoc": "0.0.41",
+    "gh-pages": "^0.12.0",
     "husky": "^0.13.2",
     "mocha": "^3.2.0",
     "modelsafe": ">= 0.6.0",
@@ -55,7 +58,7 @@
     "rxjs": "^5.0.0",
     "ts-node": "^2.1.0",
     "tslint": "^4.3.0",
-    "tslint-config-ccs": "^0.3.2",
+    "tslint-config-ccs": "^0.4.0",
     "typescript": "^2.1.0",
     "zone.js": "^0.8.4"
   },

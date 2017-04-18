@@ -1,3 +1,10 @@
+# 1.0.0-alpha1
+
+* Rework library completely - removing components in favour of service/injectable based architecture
+* Screens are now composed of:
+  * A describer, which takes a ModelSafe model and automatically describes how a CRUDL screen should look
+  * A state, which is initialized by a describer and is used to control the actual functionality of a CRUDL screen
+
 # 0.10.0
 
 * Add `setItemsPerPage` to list component
