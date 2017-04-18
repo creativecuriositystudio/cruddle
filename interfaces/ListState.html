@@ -164,7 +164,7 @@
                                     <a href="../interfaces/DeleteState.html" >DeleteState</a>
                                 </li>
                                 <li class="link">
-                                    <a href="../interfaces/FilterState.html"  class="active" >FilterState</a>
+                                    <a href="../interfaces/FilterState.html" >FilterState</a>
                                 </li>
                                 <li class="link">
                                     <a href="../interfaces/FormState.html" >FormState</a>
@@ -173,7 +173,7 @@
                                     <a href="../interfaces/ListMode.html" >ListMode</a>
                                 </li>
                                 <li class="link">
-                                    <a href="../interfaces/ListState.html" >ListState</a>
+                                    <a href="../interfaces/ListState.html"  class="active" >ListState</a>
                                 </li>
                                 <li class="link">
                                     <a href="../interfaces/PagingState.html" >PagingState</a>
@@ -357,7 +357,7 @@
                                            <a href="../interfaces/DeleteState.html" >DeleteState</a>
                                        </li>
                                        <li class="link">
-                                           <a href="../interfaces/FilterState.html"  class="active" >FilterState</a>
+                                           <a href="../interfaces/FilterState.html" >FilterState</a>
                                        </li>
                                        <li class="link">
                                            <a href="../interfaces/FormState.html" >FormState</a>
@@ -366,7 +366,7 @@
                                            <a href="../interfaces/ListMode.html" >ListMode</a>
                                        </li>
                                        <li class="link">
-                                           <a href="../interfaces/ListState.html" >ListState</a>
+                                           <a href="../interfaces/ListState.html"  class="active" >ListState</a>
                                        </li>
                                        <li class="link">
                                            <a href="../interfaces/PagingState.html" >PagingState</a>
@@ -411,7 +411,7 @@
 
 <ol class="breadcrumb">
   <li>Interfaces</li>
-  <li>FilterState</li>
+  <li>ListState</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
@@ -436,10 +436,666 @@
                 <h3>Description</h3>
             </p>
             <p class="comment">
-                <p>The state of filtering a property on a list. </p>
+                <p>The state for a list screen. </p>
 
             </p>
 
+            <section>
+                <h3 id="methods">Methods</h3>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                            <tr>
+                                <td class="col-md-4">
+                                    <b> refresh</b>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td class="col-md-4">
+            <code>refresh()</code>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td class="col-md-4">
+                                        <div class="io-description"><p>Refreshes the list data on the screen using the latest list state.<br>This function should be provided by the describer.</p>
+            </div>
+                                        <div class="io-description">
+                                        </div>
+                                        <div class="io-description">
+                                            <b>Returns: </b>    <code>any</code>
+            
+                                        </div>
+                                            <div class="io-description">
+                                                <p>The promise that resolves with the refreshed data.</p>
+            
+                                            </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                            <tr>
+                                <td class="col-md-4">
+                                    <b> clearSorting</b>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td class="col-md-4">
+            <code>clearSorting(refresh: boolean)</code>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td class="col-md-4">
+                                        <div class="io-description"><p>Clear the sorting of the list.</p>
+            </div>
+                                        <div class="io-description">
+                                                <b>Parameters :</b>
+                                                <ul class="jsdoc-params">
+                                                        <li>
+                                                            <div>
+                                                                <b>refresh</b>
+                                                            </div>
+                                                            <div>
+                                                                <p>Whether or not to refresh the list after. Defaults to true.</p>
+            
+                                                            </div>
+                                                        </li>
+                                                </ul>
+                                        </div>
+                                        <div class="io-description">
+                                            <b>Returns: </b>    <code>void</code>
+            
+                                        </div>
+                                            <div class="io-description">
+                                                
+                                            </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                            <tr>
+                                <td class="col-md-4">
+                                    <b> clearFiltering</b>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td class="col-md-4">
+            <code>clearFiltering(refresh: boolean)</code>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td class="col-md-4">
+                                        <div class="io-description"><p>Clear the filtering of the list.</p>
+            </div>
+                                        <div class="io-description">
+                                                <b>Parameters :</b>
+                                                <ul class="jsdoc-params">
+                                                        <li>
+                                                            <div>
+                                                                <b>refresh</b>
+                                                            </div>
+                                                            <div>
+                                                                <p>Whether or not to refresh the list after. Defaults to true.</p>
+            
+                                                            </div>
+                                                        </li>
+                                                </ul>
+                                        </div>
+                                        <div class="io-description">
+                                            <b>Returns: </b>    <code>void</code>
+            
+                                        </div>
+                                            <div class="io-description">
+                                                
+                                            </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                            <tr>
+                                <td class="col-md-4">
+                                    <b> sort</b>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td class="col-md-4">
+            <code>sort(prop: PropertyState, order: SortOrder, refresh: boolean)</code>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td class="col-md-4">
+                                        <div class="io-description"><p>Sort by a property with a specific order.</p>
+            </div>
+                                        <div class="io-description">
+                                                <b>Parameters :</b>
+                                                <ul class="jsdoc-params">
+                                                        <li>
+                                                            <div>
+                                                                <b>prop</b>
+                                                            </div>
+                                                            <div>
+                                                                <p>The property to sort.</p>
+            
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <div>
+                                                                <b>order</b>
+                                                            </div>
+                                                            <div>
+                                                                <p>The sort order. Defaults to ascending.</p>
+            
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <div>
+                                                                <b>refresh</b>
+                                                            </div>
+                                                            <div>
+                                                                <p>Whether or not to refresh the list after. Defaults to true.</p>
+            
+                                                            </div>
+                                                        </li>
+                                                </ul>
+                                        </div>
+                                        <div class="io-description">
+                                            <b>Returns: </b>    <code>void</code>
+            
+                                        </div>
+                                            <div class="io-description">
+                                                
+                                            </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                            <tr>
+                                <td class="col-md-4">
+                                    <b> addFilter</b>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td class="col-md-4">
+            <code>addFilter(prop: PropertyState, filter: Partial<FilterState>, refresh: boolean)</code>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td class="col-md-4">
+                                        <div class="io-description"><p>Add a filter to the list.<br>This will automatically refresh the list, unless asked not to.</p>
+            </div>
+                                        <div class="io-description">
+                                                <b>Parameters :</b>
+                                                <ul class="jsdoc-params">
+                                                        <li>
+                                                            <div>
+                                                                <b>prop</b>
+                                                            </div>
+                                                            <div>
+                                                                <p>The property to filter by.</p>
+            
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <div>
+                                                                <b>filter</b>
+                                                            </div>
+                                                            <div>
+                                                                <p>The additional filter state to use, without the property. This should contain the operator and value.</p>
+            
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <div>
+                                                                <b>refresh</b>
+                                                            </div>
+                                                            <div>
+                                                                <p>Whether or not to refresh the list after. Defaults to true.</p>
+            
+                                                            </div>
+                                                        </li>
+                                                </ul>
+                                        </div>
+                                        <div class="io-description">
+                                            <b>Returns: </b>    <code>void</code>
+            
+                                        </div>
+                                            <div class="io-description">
+                                                
+                                            </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                            <tr>
+                                <td class="col-md-4">
+                                    <b> removeFilter</b>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td class="col-md-4">
+            <code>removeFilter(filter: FilterState, refresh: boolean)</code>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td class="col-md-4">
+                                        <div class="io-description"><p>Remove a filter from the list.<br>This will automatically refresh the list, unless asked not to.</p>
+            <p>Note that this will remove blanketly by a shallow equal.</p>
+            </div>
+                                        <div class="io-description">
+                                                <b>Parameters :</b>
+                                                <ul class="jsdoc-params">
+                                                        <li>
+                                                            <div>
+                                                                <b>filter</b>
+                                                            </div>
+                                                            <div>
+                                                                <p>The filter state to stop filtering.</p>
+            
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <div>
+                                                                <b>refresh</b>
+                                                            </div>
+                                                            <div>
+                                                                <p>Whether or not to refresh the list after. Defaults to true.</p>
+            
+                                                            </div>
+                                                        </li>
+                                                </ul>
+                                        </div>
+                                        <div class="io-description">
+                                            <b>Returns: </b>    <code>void</code>
+            
+                                        </div>
+                                            <div class="io-description">
+                                                
+                                            </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                            <tr>
+                                <td class="col-md-4">
+                                    <b> hasPaging</b>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td class="col-md-4">
+            <code>hasPaging()</code>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td class="col-md-4">
+                                        <div class="io-description"><p>Whether or not pagination information has been provided.</p>
+            </div>
+                                        <div class="io-description">
+                                        </div>
+                                        <div class="io-description">
+                                            <b>Returns: </b>    <code>boolean</code>
+            
+                                        </div>
+                                            <div class="io-description">
+                                                <p>Whether pagination is enabled.</p>
+            
+                                            </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                            <tr>
+                                <td class="col-md-4">
+                                    <b> setPage</b>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td class="col-md-4">
+            <code>setPage(page: number, refresh: boolean)</code>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td class="col-md-4">
+                                        <div class="io-description"><p>Move to a specific page page.<br>This will do nothing if paging information has not been provided.</p>
+            </div>
+                                        <div class="io-description">
+                                                <b>Parameters :</b>
+                                                <ul class="jsdoc-params">
+                                                        <li>
+                                                            <div>
+                                                                <b>page</b>
+                                                            </div>
+                                                            <div>
+                                                                <p>The page number to navigate to. This starts from 1.</p>
+            
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <div>
+                                                                <b>refresh</b>
+                                                            </div>
+                                                            <div>
+                                                                <p>Whether or not to refresh the list after. Defaults to true.</p>
+            
+                                                            </div>
+                                                        </li>
+                                                </ul>
+                                        </div>
+                                        <div class="io-description">
+                                            <b>Returns: </b>    <code>void</code>
+            
+                                        </div>
+                                            <div class="io-description">
+                                                
+                                            </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                            <tr>
+                                <td class="col-md-4">
+                                    <b> setItemsPerPage</b>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td class="col-md-4">
+            <code>setItemsPerPage(itemsPerPage: number, refresh: boolean)</code>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td class="col-md-4">
+                                        <div class="io-description"><p>Sets the number of items to display per page.<br>This will do nothing if paging information has not been provided.</p>
+            </div>
+                                        <div class="io-description">
+                                                <b>Parameters :</b>
+                                                <ul class="jsdoc-params">
+                                                        <li>
+                                                            <div>
+                                                                <b>itemsPerPage</b>
+                                                            </div>
+                                                            <div>
+                                                                <p>The number of items to display on a page. Must be at least 1.</p>
+            
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <div>
+                                                                <b>refresh</b>
+                                                            </div>
+                                                            <div>
+                                                                <p>Whether or not to refresh the list after. Defaults to true.</p>
+            
+                                                            </div>
+                                                        </li>
+                                                </ul>
+                                        </div>
+                                        <div class="io-description">
+                                            <b>Returns: </b>    <code>void</code>
+            
+                                        </div>
+                                            <div class="io-description">
+                                                
+                                            </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                            <tr>
+                                <td class="col-md-4">
+                                    <b> setMode</b>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td class="col-md-4">
+            <code>setMode(mode: ListMode, refresh: boolean)</code>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td class="col-md-4">
+                                        <div class="io-description"><p>Set the current view mode of the list.</p>
+            </div>
+                                        <div class="io-description">
+                                                <b>Parameters :</b>
+                                                <ul class="jsdoc-params">
+                                                        <li>
+                                                            <div>
+                                                                <b>mode</b>
+                                                            </div>
+                                                            <div>
+                                                                <p>The view mode ID. This should correspond to a mode<br>ID on the list definition.</p>
+            
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <div>
+                                                                <b>refresh</b>
+                                                            </div>
+                                                            <div>
+                                                                <p>Whether or not to refresh the list after. Defaults to true.</p>
+            
+                                                            </div>
+                                                        </li>
+                                                </ul>
+                                        </div>
+                                        <div class="io-description">
+                                            <b>Returns: </b>    <code>void</code>
+            
+                                        </div>
+                                            <div class="io-description">
+                                                
+                                            </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                            <tr>
+                                <td class="col-md-4">
+                                    <b> firstPage</b>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td class="col-md-4">
+            <code>firstPage(refresh: boolean)</code>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td class="col-md-4">
+                                        <div class="io-description"><p>Move to the first page.<br>This will do nothing if paging information has not been provided.</p>
+            </div>
+                                        <div class="io-description">
+                                                <b>Parameters :</b>
+                                                <ul class="jsdoc-params">
+                                                        <li>
+                                                            <div>
+                                                                <b>refresh</b>
+                                                            </div>
+                                                            <div>
+                                                                <p>Whether or not to refresh the list after. Defaults to true.</p>
+            
+                                                            </div>
+                                                        </li>
+                                                </ul>
+                                        </div>
+                                        <div class="io-description">
+                                            <b>Returns: </b>    <code>void</code>
+            
+                                        </div>
+                                            <div class="io-description">
+                                                
+                                            </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                            <tr>
+                                <td class="col-md-4">
+                                    <b> lastPage</b>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td class="col-md-4">
+            <code>lastPage(refresh: boolean)</code>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td class="col-md-4">
+                                        <div class="io-description"><p>Move to the last page.<br>This will do nothing if paging information has not been provided.</p>
+            </div>
+                                        <div class="io-description">
+                                                <b>Parameters :</b>
+                                                <ul class="jsdoc-params">
+                                                        <li>
+                                                            <div>
+                                                                <b>refresh</b>
+                                                            </div>
+                                                            <div>
+                                                                <p>Whether or not to refresh the list after. Defaults to true.</p>
+            
+                                                            </div>
+                                                        </li>
+                                                </ul>
+                                        </div>
+                                        <div class="io-description">
+                                            <b>Returns: </b>    <code>void</code>
+            
+                                        </div>
+                                            <div class="io-description">
+                                                
+                                            </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                            <tr>
+                                <td class="col-md-4">
+                                    <b> nextPage</b>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td class="col-md-4">
+            <code>nextPage(refresh: boolean)</code>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td class="col-md-4">
+                                        <div class="io-description"><p>Move to the next page.<br>This will do nothing if paging information has not been provided.</p>
+            </div>
+                                        <div class="io-description">
+                                                <b>Parameters :</b>
+                                                <ul class="jsdoc-params">
+                                                        <li>
+                                                            <div>
+                                                                <b>refresh</b>
+                                                            </div>
+                                                            <div>
+                                                                <p>Whether or not to refresh the list after. Defaults to true.</p>
+            
+                                                            </div>
+                                                        </li>
+                                                </ul>
+                                        </div>
+                                        <div class="io-description">
+                                            <b>Returns: </b>    <code>void</code>
+            
+                                        </div>
+                                            <div class="io-description">
+                                                
+                                            </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                            <tr>
+                                <td class="col-md-4">
+                                    <b> previousPage</b>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td class="col-md-4">
+            <code>previousPage(refresh: boolean)</code>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td class="col-md-4">
+                                        <div class="io-description"><p>Move to the previous page.<br>This will do nothing if paging information has not been provided.</p>
+            </div>
+                                        <div class="io-description">
+                                                <b>Parameters :</b>
+                                                <ul class="jsdoc-params">
+                                                        <li>
+                                                            <div>
+                                                                <b>refresh</b>
+                                                            </div>
+                                                            <div>
+                                                                <p>Whether or not to refresh the list after. Defaults to true.</p>
+            
+                                                            </div>
+                                                        </li>
+                                                </ul>
+                                        </div>
+                                        <div class="io-description">
+                                            <b>Returns: </b>    <code>void</code>
+            
+                                        </div>
+                                            <div class="io-description">
+                                                
+                                            </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+            </section>
 
 
 
@@ -449,12 +1105,44 @@
                         <tbody>
                                 <tr>
                                     <td class="col-md-4">
-                                        <b>operator</b>
+                                        <b>filters</b>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="col-md-4">
-                                        <code>operator:     <code>string</code>
+                                        <code>filters:     <code>FilterState[]</code>
+</bcode>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>    <code>FilterState[]</code>
+
+                                        </td>
+                                    </tr>
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>The filter state of the list. </p>
+</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <b>mode</b>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>mode:     <code>string</code>
 </bcode>
                                     </td>
                                 </tr>
@@ -471,7 +1159,7 @@
 
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-description"><p>The operator being used to filter by.<br>This can be any arbitrary string and<br>it&#39;s up to the user of this library to figure<br>out how to filter by this operator.</p>
+                                    <div class="io-description"><p>The current list view mode. </p>
 </div>
                                 </td>
                             </tr>
@@ -481,12 +1169,12 @@
                         <tbody>
                                 <tr>
                                     <td class="col-md-4">
-                                        <b>path</b>
+                                        <b>paging</b>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="col-md-4">
-                                        <code>path:     <code>string</code>
+                                        <code>paging:     <code>PagingState</code>
 </bcode>
                                     </td>
                                 </tr>
@@ -494,7 +1182,7 @@
 
                                     <tr>
                                         <td class="col-md-4">
-                                            <i>Type : </i>    <code>string</code>
+                                            <i>Type : </i>    <code>PagingState</code>
 
                                         </td>
                                     </tr>
@@ -503,7 +1191,7 @@
 
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-description"><p>The property path being filtered on. </p>
+                                    <div class="io-description"><p>The pagination state of the list. </p>
 </div>
                                 </td>
                             </tr>
@@ -513,12 +1201,12 @@
                         <tbody>
                                 <tr>
                                     <td class="col-md-4">
-                                        <b>value</b>
+                                        <b>sorting</b>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="col-md-4">
-                                        <code>value:     <code>any</code>
+                                        <code>sorting:     <code>SortState[]</code>
 </bcode>
                                     </td>
                                 </tr>
@@ -526,7 +1214,7 @@
 
                                     <tr>
                                         <td class="col-md-4">
-                                            <i>Type : </i>    <code>any</code>
+                                            <i>Type : </i>    <code>SortState[]</code>
 
                                         </td>
                                     </tr>
@@ -535,7 +1223,7 @@
 
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-description"><p>The value being filtered by. </p>
+                                    <div class="io-description"><p>The sorting state of the list. </p>
 </div>
                                 </td>
                             </tr>
