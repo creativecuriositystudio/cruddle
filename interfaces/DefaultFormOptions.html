@@ -556,7 +556,7 @@ export abstract class FormDescriber&lt;T extends Model&gt; extends ScreenDescrib
    * this function in a child class. This will automatically be provided
    * to the form state when it is constructed.
    */
-  async cancel(instance: T, options?: any): Promise&lt;any&gt; {
+  async cancel(_instance: T): Promise&lt;any&gt; {
     // Do nothing.
   }
 }

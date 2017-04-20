@@ -648,9 +648,8 @@
     </div>
     <div class="tab-pane fade tab-source-code" id="source">
         <pre><code class="hljs javascript">import * as _ from &#x27;lodash&#x27;;
-import { EventEmitter } from &#x27;@angular/core&#x27;;
 import { singularize, pluralize } from &#x27;inflection&#x27;;
-import { Observable } from &#x27;rxjs&#x27;;
+import { Observable, BehaviorSubject } from &#x27;rxjs&#x27;;
 import { Model, ModelConstructor, AttributeType, AssociationType, getModelOptions,
          getAttributes, getAssociations, InternalAttributeType, EnumAttributeTypeOptions } from &#x27;modelsafe&#x27;;
 
@@ -702,7 +701,9 @@ export interface AttributeDescription extends PropertyDescription {
 }
 
 /** All attribute descriptions of a model, mapped by path. */
-export type AttributeDescriptions &#x3D; { [key: string]: AttributeDescription };
+export interface AttributeDescriptions {
+  [key: string]: AttributeDescription;
+}
 
 /** Describes an association of a model. */
 export interface AssociationDescription extends PropertyDescription {
@@ -710,8 +711,10 @@ export interface AssociationDescription extends PropertyDescription {
   type: AssociationType;
 }
 
-/** all association descriptions of a model, mapped by path. */
-export type AssociationDescriptions &#x3D; { [key: string]: AssociationDescription };
+/** All association descriptions of a model, mapped by path. */
+export interface AssociationDescriptions {
+  [key: string]: AssociationDescription;
+}
 
 /** The general description of a screen. This is for miscellaneous description settings. */
 export interface ScreenDescription {
@@ -764,6 +767,7 @@ export interface ContextualActionDescription&lt;T extends Model&gt; extends Acti
 }
 
 /** The state of a property to display on the screen. */
+// tslint:disable-next-line:no-empty-interface
 export interface PropertyState extends PropertyDescription {}
 
 /** The state of an action on the screen. */
@@ -846,7 +850,6 @@ export abstract class ScreenDescriber&lt;T extends Model&gt; {
         .values&lt;PropertyDescription&gt;(this.getAttributes())
         .concat(_.values&lt;PropertyDescription&gt;(this.getAssociations()));
 
-    let propsEmitter &#x3D; new EventEmitter();
     let refreshProps &#x3D; (visible: string[]) &#x3D;&gt; {
       return descriptions
         .filter(desc &#x3D;&gt; visible.indexOf(desc.path) !&#x3D;&#x3D; -1)
@@ -855,7 +858,7 @@ export abstract class ScreenDescriber&lt;T extends Model&gt; {
         });
     };
 
-    propsEmitter.emit(refreshProps(visible));
+    let propsSubject &#x3D; new BehaviorSubject(refreshProps(visible));
 
     return _.cloneDeep({
       alerts: [],
@@ -864,13 +867,13 @@ export abstract class ScreenDescriber&lt;T extends Model&gt; {
       visible: screen.visible,
       actions: this.getActions() as ActionState[],
       contextualActions: this.getContextualActions() as ContextualActionState&lt;T&gt;[],
-      props: propsEmitter.asObservable(),
+      props: propsSubject.asObservable(),
 
       /** Set the properties that are visible. */
       setVisible(paths: string[]) {
         this.visible &#x3D; paths;
 
-        propsEmitter.emit(refreshProps(paths));
+        propsSubject.next(refreshProps(paths));
       }
     });
   }
@@ -910,7 +913,7 @@ export abstract class ScreenDescriber&lt;T extends Model&gt; {
       // Check if the internal attribute type is ENUM, if so pre-populate values with relevant enum variants
       // (if no values have been provided manually).
       if (!_.isArray(attrOptions.values) &amp;&amp; attr.type.type &#x3D;&#x3D;&#x3D; InternalAttributeType.ENUM) {
-        attrOptions.values &#x3D; (&lt;EnumAttributeTypeOptions&gt; attr.type.options).values.map((v: any) &#x3D;&gt; {
+        attrOptions.values &#x3D; (attr.type.options as EnumAttributeTypeOptions).values.map((v: any) &#x3D;&gt; {
           return {
             label: v,
             value: v
