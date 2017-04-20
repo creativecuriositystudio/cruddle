@@ -4,6 +4,7 @@ import { Model, ModelConstructor } from 'modelsafe';
 import { ScreenState, ScreenDescriber } from './base';
 
 /** The state of a read (view) screen. */
+// tslint:disable-next-line:no-empty-interface
 export interface ReadState<T extends Model> extends ScreenState<T> {}
 
 /** Describes a read screen. */

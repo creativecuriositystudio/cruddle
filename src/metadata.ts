@@ -1,3 +1,4 @@
+/* tslint:disable:ban-types */
 import 'reflect-metadata';
 
 import { PropertyDescription, AttributeDescription, AssociationDescription } from './base';
@@ -12,7 +13,7 @@ export const MODEL_PROP_OPTIONS_META_KEY = 'cruddle:propOptions';
  * @param key The property key.
  * @param options The property options.
  */
-export function definePropertyOptions(ctor: Object, key: string | symbol, options: Partial<PropertyDescription>) {
+export function definePropertyOptions(ctor: object, key: string | symbol, options: Partial<PropertyDescription>) {
   options = {
     ... Reflect.getMetadata(MODEL_PROP_OPTIONS_META_KEY, ctor, key),
     ... options
@@ -44,7 +45,7 @@ export function getPropertyOptions(ctor: Function, key: string | symbol): Proper
  * @param key The attribute's property key.
  * @param options The attribute options.
  */
-export function defineAttributeOptions(ctor: Object, key: string | symbol, options: Partial<AttributeDescription>) {
+export function defineAttributeOptions(ctor: object, key: string | symbol, options: Partial<AttributeDescription>) {
   return definePropertyOptions(ctor, key, options as Partial<PropertyDescription>);
 }
 
@@ -66,7 +67,7 @@ export function getAttributeOptions(ctor: Function, key: string | symbol): Attri
  * @param key The association's property key.
  * @param options The attribute options.
  */
-export function defineAssociationOptions(ctor: Object, key: string | symbol, options: Partial<AssociationDescription>) {
+export function defineAssociationOptions(ctor: object, key: string | symbol, options: Partial<AssociationDescription>) {
   return definePropertyOptions(ctor, key, options as Partial<PropertyDescription>);
 }
 

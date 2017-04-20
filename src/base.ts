@@ -1,7 +1,6 @@
 import * as _ from 'lodash';
-import { EventEmitter } from '@angular/core';
 import { singularize, pluralize } from 'inflection';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { Model, ModelConstructor, AttributeType, AssociationType, getModelOptions,
          getAttributes, getAssociations, InternalAttributeType, EnumAttributeTypeOptions } from 'modelsafe';
 
@@ -53,7 +52,9 @@ export interface AttributeDescription extends PropertyDescription {
 }
 
 /** All attribute descriptions of a model, mapped by path. */
-export type AttributeDescriptions = { [key: string]: AttributeDescription };
+export interface AttributeDescriptions {
+  [key: string]: AttributeDescription;
+}
 
 /** Describes an association of a model. */
 export interface AssociationDescription extends PropertyDescription {
@@ -61,8 +62,10 @@ export interface AssociationDescription extends PropertyDescription {
   type: AssociationType;
 }
 
-/** all association descriptions of a model, mapped by path. */
-export type AssociationDescriptions = { [key: string]: AssociationDescription };
+/** All association descriptions of a model, mapped by path. */
+export interface AssociationDescriptions {
+  [key: string]: AssociationDescription;
+}
 
 /** The general description of a screen. This is for miscellaneous description settings. */
 export interface ScreenDescription {
@@ -115,6 +118,7 @@ export interface ContextualActionDescription<T extends Model> extends ActionDesc
 }
 
 /** The state of a property to display on the screen. */
+// tslint:disable-next-line:no-empty-interface
 export interface PropertyState extends PropertyDescription {}
 
 /** The state of an action on the screen. */
@@ -197,7 +201,6 @@ export abstract class ScreenDescriber<T extends Model> {
         .values<PropertyDescription>(this.getAttributes())
         .concat(_.values<PropertyDescription>(this.getAssociations()));
 
-    let propsEmitter = new EventEmitter();
     let refreshProps = (visible: string[]) => {
       return descriptions
         .filter(desc => visible.indexOf(desc.path) !== -1)
@@ -206,7 +209,7 @@ export abstract class ScreenDescriber<T extends Model> {
         });
     };
 
-    propsEmitter.emit(refreshProps(visible));
+    let propsSubject = new BehaviorSubject(refreshProps(visible));
 
     return _.cloneDeep({
       alerts: [],
@@ -215,13 +218,13 @@ export abstract class ScreenDescriber<T extends Model> {
       visible: screen.visible,
       actions: this.getActions() as ActionState[],
       contextualActions: this.getContextualActions() as ContextualActionState<T>[],
-      props: propsEmitter.asObservable(),
+      props: propsSubject.asObservable(),
 
       /** Set the properties that are visible. */
       setVisible(paths: string[]) {
         this.visible = paths;
 
-        propsEmitter.emit(refreshProps(paths));
+        propsSubject.next(refreshProps(paths));
       }
     });
   }
@@ -261,7 +264,7 @@ export abstract class ScreenDescriber<T extends Model> {
       // Check if the internal attribute type is ENUM, if so pre-populate values with relevant enum variants
       // (if no values have been provided manually).
       if (!_.isArray(attrOptions.values) && attr.type.type === InternalAttributeType.ENUM) {
-        attrOptions.values = (<EnumAttributeTypeOptions> attr.type.options).values.map((v: any) => {
+        attrOptions.values = (attr.type.options as EnumAttributeTypeOptions).values.map((v: any) => {
           return {
             label: v,
             value: v

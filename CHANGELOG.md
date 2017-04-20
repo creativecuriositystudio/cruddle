@@ -1,3 +1,8 @@
+# 1.0.0-alpha.2
+
+* Upgrade to ModelSafe `0.7.1`
+* Fix props observable being empty on base state
+
 # 1.0.0-alpha1
 
 * Rework library completely - removing components in favour of service/injectable based architecture
