@@ -19,22 +19,36 @@ export interface FormState<T extends Model> extends ScreenState<T> {
 
   /**
    * Cancels editing/creating an instance using the function provided
-   * by the describer.. This is optional and might be required in some cases
+   * by the describer. This is optional and might be required in some cases
    * (such as when a 'Cancel' button is required on the screen.
+   *
+   * @param instance The instance to cancel editing.
+   * @returns A promise that resolves when editing is cancelled.
    */
-  cancel?(instance: T): Promise<any>;
+  cancel(instance: T): Promise<any>;
 }
 
 /** Describes a form screen, which is generally a shared create/edit screen. */
 export abstract class FormDescriber<T extends Model> extends ScreenDescriber<T> {
   /** Initialize form state from this form describer. */
   state(): FormState<T> {
+    let save = this.save.bind(this);
+    let cancel = this.cancel.bind(this);
+
     return {
       ... super.state(),
 
       errors: {},
-      save: this.save.bind(this),
-      cancel: this.cancel.bind(this)
+
+      /** The wrapped save functionality. */
+      async save(instance: T, options?: any): Promise<T> {
+        return save(this, instance, options);
+      },
+
+      /** The wrapped cancel functionality. */
+      async cancel(instance: T): Promise<any> {
+        return cancel(this, instance);
+      }
     };
   }
 
@@ -45,17 +59,24 @@ export abstract class FormDescriber<T extends Model> extends ScreenDescriber<T> 
    *
    * This must be provided by a child class.
    *
-   * @see state
+   * @param state The current form screen state.
+   * @param instance The model instance to save.
+   * @param options Any extra options provided.
+   * @returns A promise that resolves when the instance has been saved.
    */
-  async abstract save(instance: T, options?: any): Promise<T>;
+  async abstract save(state: FormState<T>, instance: T, options?: any): Promise<T>;
 
   /**
    * Cancel saving a model instance. By default this does nothing.
    * If you need the screen to have a cancel button, override
    * this function in a child class. This will automatically be provided
    * to the form state when it is constructed.
+   *
+   * @param state The current form screen state.
+   * @param instance The model instance to cancel saving.
+   * @param options Any extra options provided.
    */
-  async cancel(_instance: T): Promise<any> {
+  async cancel(_state: FormState<T>, _instance: T): Promise<any> {
     // Do nothing.
   }
 }
@@ -63,10 +84,10 @@ export abstract class FormDescriber<T extends Model> extends ScreenDescriber<T> 
 /** The options for the default implementation of a form describer. */
 export interface DefaultFormOptions<T extends Model> {
   /** The save function to provide to the default describer. */
-  save(instance: T, options?: any): Promise<T>;
+  save(state: FormState<T>, instance: T, options?: any): Promise<T>;
 
   /** The cancel function to provide to the default describer. */
-  cancel?(instance: T, options?: any): Promise<any>;
+  cancel?(state: FormState<T>, instance: T): Promise<any>;
 }
 
 /** A form describer for a model which uses default behaviour. */
@@ -87,17 +108,15 @@ export class DefaultFormDescriber<T extends Model> extends FormDescriber<T> {
   }
 
   /** Saves the form data using the save function provided as an option. */
-  async save(instance: T, options?: any): Promise<T> {
-    return this.options.save(instance, options);
+  async save(state: FormState<T>, instance: T, options?: any): Promise<T> {
+    return this.options.save(state, instance, options);
   }
 
   /** Cancels saving the form using the cancel function provided as an option. */
-  async cancel(instance: T, options?: any): Promise<any> {
-    if (this.options.cancel) {
-      return this.options.cancel(instance, options);
+  async cancel(state: FormState<T>, instance: T): Promise<any> {
+    if (typeof (this.options.cancel) === 'function') {
+      return this.options.cancel(state, instance);
     }
-
-    // Do nothing.
   }
 }
 

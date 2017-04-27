@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { Model, ModelConstructor } from 'modelsafe';
 import * as _ from 'lodash';
 
@@ -85,6 +85,9 @@ export interface ListState<T extends Model> extends ScreenState<T> {
 
   /** The current list view mode. */
   mode?: string;
+
+  /** Emits events when the screen is refreshed. */
+  refreshes: EventEmitter<T[]>;
 
   /**
    * Refreshes the list data on the screen using the latest list state.
@@ -209,6 +212,8 @@ export interface ListState<T extends Model> extends ScreenState<T> {
 export abstract class ListDescriber<T extends Model> extends ScreenDescriber<T> {
   /** Initializes the state for the list screen described by this class. */
   state(): ListState<T> {
+    let refresh = this.refresh.bind(this);
+
     // FIXME: The any cast here is required to temporarily get around not having a
     // refresh function on the list state at first.
     let state: ListState<T> = {
@@ -216,6 +221,7 @@ export abstract class ListDescriber<T extends Model> extends ScreenDescriber<T> 
 
       filters: [],
       sorting: [],
+      refreshes: new EventEmitter(),
 
       /** Clear the sorting of the list. */
       clearSorting(refresh: boolean = true) {
@@ -344,13 +350,15 @@ export abstract class ListDescriber<T extends Model> extends ScreenDescriber<T> 
         }
       },
 
-      /** Just a placeholder. */
-      async refresh() {
-        return [];
+      /** Refreshes the list data using the function provided by the describer. */
+      async refresh(): Promise<T[]> {
+        let data = await refresh(this);
+
+        this.refreshes.emit(data);
+
+        return data;
       }
     };
-
-    state.refresh = this.refresh.bind(this, state);
 
     return state;
   }

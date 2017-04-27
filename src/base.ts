@@ -86,7 +86,7 @@ export interface ScreenDescription {
  * Describes an action that can be performed on the screen that is not related
  * to a specific model instance, e.g. a 'Create New' button which might take you to a page.
  */
-export interface ActionDescription {
+export interface ActionDescription<T extends Model> {
   /** The label of the action. */
   label: string;
 
@@ -96,25 +96,27 @@ export interface ActionDescription {
   /**
    * Performs the action itself.
    *
+   * @param state The screen state to action with.
    * @param options Any extra options for the action.
    * @returns A promise resolving with the action result.
    */
-  do(options?: any): Promise<any>;
+  do(this: ActionState<T>, state: ScreenState<T>, options?: any): Promise<any>;
 }
 
 /**
  * Describe san action that can be performed on a specific model instance, for e.g.
  * a 'Delete' button that deletes a specific model instance/row.
  */
-export interface ContextualActionDescription<T extends Model> extends ActionDescription {
+export interface ContextualActionDescription<T extends Model> extends ActionDescription<T> {
   /**
    * Performs the contextual action itself.
    *
+   * @param state The screen state to action with.
    * @param instance The model instance to perform the action on.
    * @param options Any extra options for the action.
    * @returns A promise that resolves with the action result.
    */
-  do(instance: T, options?: any): Promise<any>;
+  do(this: ContextualActionState<T>, state: ScreenState<T>, instance: T, options?: any): Promise<any>;
 }
 
 /** The state of a property to display on the screen. */
@@ -122,7 +124,7 @@ export interface ContextualActionDescription<T extends Model> extends ActionDesc
 export interface PropertyState extends PropertyDescription {}
 
 /** The state of an action on the screen. */
-export interface ActionState extends ActionDescription {
+export interface ActionState<T extends Model> extends ActionDescription<T> {
   /** Whether the action is being performed. */
   isPerforming: boolean;
 }
@@ -155,8 +157,11 @@ export interface ScreenState<T extends Model> extends ScreenDescription {
   /** The properties to display on the screen. */
   props: Observable<PropertyState[]>;
 
+  /** The properties subject that emits the observable `props` attribute. */
+  propsSubject: BehaviorSubject<PropertyState[]>;
+
   /** The actions on the screen. */
-  actions: ActionState[];
+  actions: ActionState<T>[];
 
   /** The contextual actions (instance-acting) on the screen. */
   contextualActions: ContextualActionState<T>[];
@@ -211,20 +216,34 @@ export abstract class ScreenDescriber<T extends Model> {
 
     let propsSubject = new BehaviorSubject(refreshProps(visible));
 
-    return _.cloneDeep({
+    return _.clone({
       alerts: [],
       plural: screen.plural,
       singular: screen.singular,
       visible: screen.visible,
-      actions: this.getActions() as ActionState[],
-      contextualActions: this.getContextualActions() as ContextualActionState<T>[],
       props: propsSubject.asObservable(),
+      propsSubject,
+
+      actions: this.getActions().map((action: ActionDescription<T>): ActionState<T> => {
+        let state = _.clone(action);
+
+        state.do = state.do.bind(state);
+
+        return state as ActionState<T>;
+      }),
+
+      contextualActions: this.getContextualActions().map((action: ContextualActionDescription<T>): ContextualActionState<T> => {
+        let state = _.clone(action);
+
+        state.do = state.do.bind(state);
+
+        return state as ContextualActionState<T>;
+      }),
 
       /** Set the properties that are visible. */
       setVisible(paths: string[]) {
         this.visible = paths;
-
-        propsSubject.next(refreshProps(paths));
+        this.propsSubject.next(refreshProps(paths));
       }
     });
   }
@@ -301,7 +320,7 @@ export abstract class ScreenDescriber<T extends Model> {
   }
 
   /** Get the actions for this screen. */
-  getActions(): ActionDescription[] {
+  getActions(): ActionDescription<T>[] {
     return [];
   }
 

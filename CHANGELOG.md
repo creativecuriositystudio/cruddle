@@ -1,3 +1,13 @@
+# 1.0.0-alpha.3
+
+* [CHANGE] Action `do` functions are now bound to the action state, allowing for manipulating things like `isPerforming`
+  or accessing action data during performing the action
+* [FIX] Fixed visibility change not refreshing `props` observable
+* [FEATURE] Add `cancel` to delete describer/state
+* [FEATURE/CHANGE] All describers now take state in their overridable functions, to allow for manipulation of things
+  like alerts and error state
+* [FEATURE] Add `refreshes` event emitter to list states allowing for subscribing to list data changes
+
 # 1.0.0-alpha.2
 
 * Upgrade to ModelSafe `0.7.1`
