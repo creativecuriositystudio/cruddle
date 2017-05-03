@@ -174,6 +174,22 @@ export interface ScreenState<T extends Model> extends ScreenDescription {
    * @param paths The list of property paths that should be visible.
    */
   setVisible(paths: string[]): void;
+
+  /**
+   * Adds an alert to the screen.
+   * This alert will override any alerts with the same ID.
+   *
+   * @param alert The alert to add.
+   */
+  addAlert(alert: AlertState): void;
+
+  /**
+   * Removes an alert from the screen.
+   * This alert will remove all alerts with the provided alert's ID.
+   *
+   * @param alert The alert to remove.
+   */
+  removeAlert(alert: AlertState): void;
 }
 
 /**
@@ -243,7 +259,20 @@ export abstract class ScreenDescriber<T extends Model> {
       /** Set the properties that are visible. */
       setVisible(paths: string[]) {
         this.visible = paths;
+
         this.propsSubject.next(refreshProps(paths));
+      },
+
+      /** Adds an alert to the screen. */
+      addAlert(alert: AlertState) {
+        this.alerts = this.alerts
+          .filter((item: AlertState) => item.id !== alert.id)
+          .concat([alert]);
+      },
+
+      /** Removes an alert from the screen. */
+      removeAlert(alert: AlertState) {
+        this.alerts = this.alerts.filter((item: AlertState) => item.id !== alert.id);
       }
     });
   }
