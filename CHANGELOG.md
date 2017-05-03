@@ -1,3 +1,7 @@
+# 1.0.0-alpha.5
+
+* [FIX] Use lodash extend in list state definition, as spread operator seemed to be tricking up Webpack
+
 # 1.0.0-alpha.4
 
 * [FEATURE] Add `addAlert` and `removeAlert` to base state

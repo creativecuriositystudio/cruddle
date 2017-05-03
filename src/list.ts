@@ -260,7 +260,7 @@ export abstract class ListDescriber<T extends Model> extends ScreenDescriber<T> 
 
       /** Add a filter to the list. */
       addFilter(prop: PropertyState, filter: Partial<FilterState>, refresh: boolean = true) {
-        this.filters.push({ path: prop.path, ... filter as FilterState });
+        this.filters.push(_.extend({ path: prop.path }, filter));
 
         if (refresh) {
           this.refresh();
