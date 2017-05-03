@@ -1,3 +1,8 @@
+# 1.0.0-alpha.4
+
+* [FEATURE] Add `addAlert` and `removeAlert` to base state
+* [OTHER] Compile with Angular 4.1.0 toolchain
+
 # 1.0.0-alpha.3
 
 * [CHANGE] Action `do` functions are now bound to the action state, allowing for manipulating things like `isPerforming`
