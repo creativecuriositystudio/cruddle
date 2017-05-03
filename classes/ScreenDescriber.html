@@ -585,7 +585,7 @@
                                         <div class="io-description"><p>Get the actions for this screen. </p>
             </div>
                                         <div class="io-description">
-                                            <b>Returns: </b>    <code>ActionDescription[]</code>
+                                            <b>Returns: </b>    <code>ActionDescription&lt;T&gt;[]</code>
             
                                         </div>
                                 </td>
@@ -735,7 +735,7 @@ export interface ScreenDescription {
  * Describes an action that can be performed on the screen that is not related
  * to a specific model instance, e.g. a &#x27;Create New&#x27; button which might take you to a page.
  */
-export interface ActionDescription {
+export interface ActionDescription&lt;T extends Model&gt; {
   /** The label of the action. */
   label: string;
 
@@ -745,25 +745,27 @@ export interface ActionDescription {
   /**
    * Performs the action itself.
    *
+   * @param state The screen state to action with.
    * @param options Any extra options for the action.
    * @returns A promise resolving with the action result.
    */
-  do(options?: any): Promise&lt;any&gt;;
+  do(this: ActionState&lt;T&gt;, state: ScreenState&lt;T&gt;, options?: any): Promise&lt;any&gt;;
 }
 
 /**
  * Describe san action that can be performed on a specific model instance, for e.g.
  * a &#x27;Delete&#x27; button that deletes a specific model instance/row.
  */
-export interface ContextualActionDescription&lt;T extends Model&gt; extends ActionDescription {
+export interface ContextualActionDescription&lt;T extends Model&gt; extends ActionDescription&lt;T&gt; {
   /**
    * Performs the contextual action itself.
    *
+   * @param state The screen state to action with.
    * @param instance The model instance to perform the action on.
    * @param options Any extra options for the action.
    * @returns A promise that resolves with the action result.
    */
-  do(instance: T, options?: any): Promise&lt;any&gt;;
+  do(this: ContextualActionState&lt;T&gt;, state: ScreenState&lt;T&gt;, instance: T, options?: any): Promise&lt;any&gt;;
 }
 
 /** The state of a property to display on the screen. */
@@ -771,7 +773,7 @@ export interface ContextualActionDescription&lt;T extends Model&gt; extends Acti
 export interface PropertyState extends PropertyDescription {}
 
 /** The state of an action on the screen. */
-export interface ActionState extends ActionDescription {
+export interface ActionState&lt;T extends Model&gt; extends ActionDescription&lt;T&gt; {
   /** Whether the action is being performed. */
   isPerforming: boolean;
 }
@@ -804,8 +806,11 @@ export interface ScreenState&lt;T extends Model&gt; extends ScreenDescription {
   /** The properties to display on the screen. */
   props: Observable&lt;PropertyState[]&gt;;
 
+  /** The properties subject that emits the observable &#x60;props&#x60; attribute. */
+  propsSubject: BehaviorSubject&lt;PropertyState[]&gt;;
+
   /** The actions on the screen. */
-  actions: ActionState[];
+  actions: ActionState&lt;T&gt;[];
 
   /** The contextual actions (instance-acting) on the screen. */
   contextualActions: ContextualActionState&lt;T&gt;[];
@@ -818,6 +823,22 @@ export interface ScreenState&lt;T extends Model&gt; extends ScreenDescription {
    * @param paths The list of property paths that should be visible.
    */
   setVisible(paths: string[]): void;
+
+  /**
+   * Adds an alert to the screen.
+   * This alert will override any alerts with the same ID.
+   *
+   * @param alert The alert to add.
+   */
+  addAlert(alert: AlertState): void;
+
+  /**
+   * Removes an alert from the screen.
+   * This alert will remove all alerts with the provided alert&#x27;s ID.
+   *
+   * @param alert The alert to remove.
+   */
+  removeAlert(alert: AlertState): void;
 }
 
 /**
@@ -860,20 +881,47 @@ export abstract class ScreenDescriber&lt;T extends Model&gt; {
 
     let propsSubject &#x3D; new BehaviorSubject(refreshProps(visible));
 
-    return _.cloneDeep({
+    return _.clone({
       alerts: [],
       plural: screen.plural,
       singular: screen.singular,
       visible: screen.visible,
-      actions: this.getActions() as ActionState[],
-      contextualActions: this.getContextualActions() as ContextualActionState&lt;T&gt;[],
       props: propsSubject.asObservable(),
+      propsSubject,
+
+      actions: this.getActions().map((action: ActionDescription&lt;T&gt;): ActionState&lt;T&gt; &#x3D;&gt; {
+        let state &#x3D; _.clone(action);
+
+        state.do &#x3D; state.do.bind(state);
+
+        return state as ActionState&lt;T&gt;;
+      }),
+
+      contextualActions: this.getContextualActions().map((action: ContextualActionDescription&lt;T&gt;): ContextualActionState&lt;T&gt; &#x3D;&gt; {
+        let state &#x3D; _.clone(action);
+
+        state.do &#x3D; state.do.bind(state);
+
+        return state as ContextualActionState&lt;T&gt;;
+      }),
 
       /** Set the properties that are visible. */
       setVisible(paths: string[]) {
         this.visible &#x3D; paths;
 
-        propsSubject.next(refreshProps(paths));
+        this.propsSubject.next(refreshProps(paths));
+      },
+
+      /** Adds an alert to the screen. */
+      addAlert(alert: AlertState) {
+        this.alerts &#x3D; this.alerts
+          .filter((item: AlertState) &#x3D;&gt; item.id !&#x3D;&#x3D; alert.id)
+          .concat([alert]);
+      },
+
+      /** Removes an alert from the screen. */
+      removeAlert(alert: AlertState) {
+        this.alerts &#x3D; this.alerts.filter((item: AlertState) &#x3D;&gt; item.id !&#x3D;&#x3D; alert.id);
       }
     });
   }
@@ -950,7 +998,7 @@ export abstract class ScreenDescriber&lt;T extends Model&gt; {
   }
 
   /** Get the actions for this screen. */
-  getActions(): ActionDescription[] {
+  getActions(): ActionDescription&lt;T&gt;[] {
     return [];
   }
 

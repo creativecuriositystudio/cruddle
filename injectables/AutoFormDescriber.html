@@ -479,7 +479,7 @@
                                         <span class="modifier-icon method fa fa-play ">
                                             <span class="fa fa-"></span>
                                         </span>
-                                    <code>save(instance: T, options: any)</code>
+                                    <code>save(state: FormState<T>, instance: T, options: any)</code>
                                 </td>
                             </tr>
             
@@ -489,13 +489,44 @@
             <p>This must be provided by a child class.</p>
             </div>
                                         <div class="io-description">
+                                                <b>Parameters :</b>
+                                                <ul class="jsdoc-params">
+                                                        <li>
+                                                            <div>
+                                                                <b>state</b>
+                                                            </div>
+                                                            <div>
+                                                                <p>The current form screen state.</p>
+            
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <div>
+                                                                <b>instance</b>
+                                                            </div>
+                                                            <div>
+                                                                <p>The model instance to save.</p>
+            
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <div>
+                                                                <b>options</b>
+                                                            </div>
+                                                            <div>
+                                                                <p>Any extra options provided.</p>
+            
+                                                            </div>
+                                                        </li>
+                                                </ul>
                                         </div>
                                         <div class="io-description">
                                             <b>Returns: </b>    <code>any</code>
             
                                         </div>
                                             <div class="io-description">
-                                                
+                                                <p>A promise that resolves when the instance has been saved.</p>
+            
                                             </div>
                                 </td>
                             </tr>
@@ -514,7 +545,7 @@
                                         <span class="modifier-icon method fa fa-play ">
                                             <span class="fa fa-"></span>
                                         </span>
-                                    <code>cancel(_instance: T)</code>
+                                    <code>cancel(_state: FormState<T>, _instance: T)</code>
                                 </td>
                             </tr>
             
@@ -523,9 +554,44 @@
                                         <div class="io-description"><p>Cancel saving a model instance. By default this does nothing.<br>If you need the screen to have a cancel button, override<br>this function in a child class. This will automatically be provided<br>to the form state when it is constructed.</p>
             </div>
                                         <div class="io-description">
+                                                <b>Parameters :</b>
+                                                <ul class="jsdoc-params">
+                                                        <li>
+                                                            <div>
+                                                                <b>state</b>
+                                                            </div>
+                                                            <div>
+                                                                <p>The current form screen state.</p>
+            
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <div>
+                                                                <b>instance</b>
+                                                            </div>
+                                                            <div>
+                                                                <p>The model instance to cancel saving.</p>
+            
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <div>
+                                                                <b>options</b>
+                                                            </div>
+                                                            <div>
+                                                                <p>Any extra options provided.</p>
+            
+                                                            </div>
+                                                        </li>
+                                                </ul>
+                                        </div>
+                                        <div class="io-description">
                                             <b>Returns: </b>    <code>any</code>
             
                                         </div>
+                                            <div class="io-description">
+                                                
+                                            </div>
                                 </td>
                             </tr>
                         </tbody>
@@ -555,22 +621,36 @@ export interface FormState&lt;T extends Model&gt; extends ScreenState&lt;T&gt; {
 
   /**
    * Cancels editing/creating an instance using the function provided
-   * by the describer.. This is optional and might be required in some cases
+   * by the describer. This is optional and might be required in some cases
    * (such as when a &#x27;Cancel&#x27; button is required on the screen.
+   *
+   * @param instance The instance to cancel editing.
+   * @returns A promise that resolves when editing is cancelled.
    */
-  cancel?(instance: T): Promise&lt;any&gt;;
+  cancel(instance: T): Promise&lt;any&gt;;
 }
 
 /** Describes a form screen, which is generally a shared create/edit screen. */
 export abstract class FormDescriber&lt;T extends Model&gt; extends ScreenDescriber&lt;T&gt; {
   /** Initialize form state from this form describer. */
   state(): FormState&lt;T&gt; {
+    let save &#x3D; this.save.bind(this);
+    let cancel &#x3D; this.cancel.bind(this);
+
     return {
       ... super.state(),
 
       errors: {},
-      save: this.save.bind(this),
-      cancel: this.cancel.bind(this)
+
+      /** The wrapped save functionality. */
+      async save(instance: T, options?: any): Promise&lt;T&gt; {
+        return save(this, instance, options);
+      },
+
+      /** The wrapped cancel functionality. */
+      async cancel(instance: T): Promise&lt;any&gt; {
+        return cancel(this, instance);
+      }
     };
   }
 
@@ -581,17 +661,24 @@ export abstract class FormDescriber&lt;T extends Model&gt; extends ScreenDescrib
    *
    * This must be provided by a child class.
    *
-   * @see state
+   * @param state The current form screen state.
+   * @param instance The model instance to save.
+   * @param options Any extra options provided.
+   * @returns A promise that resolves when the instance has been saved.
    */
-  async abstract save(instance: T, options?: any): Promise&lt;T&gt;;
+  async abstract save(state: FormState&lt;T&gt;, instance: T, options?: any): Promise&lt;T&gt;;
 
   /**
    * Cancel saving a model instance. By default this does nothing.
    * If you need the screen to have a cancel button, override
    * this function in a child class. This will automatically be provided
    * to the form state when it is constructed.
+   *
+   * @param state The current form screen state.
+   * @param instance The model instance to cancel saving.
+   * @param options Any extra options provided.
    */
-  async cancel(_instance: T): Promise&lt;any&gt; {
+  async cancel(_state: FormState&lt;T&gt;, _instance: T): Promise&lt;any&gt; {
     // Do nothing.
   }
 }
@@ -599,10 +686,10 @@ export abstract class FormDescriber&lt;T extends Model&gt; extends ScreenDescrib
 /** The options for the default implementation of a form describer. */
 export interface DefaultFormOptions&lt;T extends Model&gt; {
   /** The save function to provide to the default describer. */
-  save(instance: T, options?: any): Promise&lt;T&gt;;
+  save(state: FormState&lt;T&gt;, instance: T, options?: any): Promise&lt;T&gt;;
 
   /** The cancel function to provide to the default describer. */
-  cancel?(instance: T, options?: any): Promise&lt;any&gt;;
+  cancel?(state: FormState&lt;T&gt;, instance: T): Promise&lt;any&gt;;
 }
 
 /** A form describer for a model which uses default behaviour. */
@@ -623,17 +710,15 @@ export class DefaultFormDescriber&lt;T extends Model&gt; extends FormDescriber&l
   }
 
   /** Saves the form data using the save function provided as an option. */
-  async save(instance: T, options?: any): Promise&lt;T&gt; {
-    return this.options.save(instance, options);
+  async save(state: FormState&lt;T&gt;, instance: T, options?: any): Promise&lt;T&gt; {
+    return this.options.save(state, instance, options);
   }
 
   /** Cancels saving the form using the cancel function provided as an option. */
-  async cancel(instance: T, options?: any): Promise&lt;any&gt; {
-    if (this.options.cancel) {
-      return this.options.cancel(instance, options);
+  async cancel(state: FormState&lt;T&gt;, instance: T): Promise&lt;any&gt; {
+    if (typeof (this.options.cancel) &#x3D;&#x3D;&#x3D; &#x27;function&#x27;) {
+      return this.options.cancel(state, instance);
     }
-
-    // Do nothing.
   }
 }
 

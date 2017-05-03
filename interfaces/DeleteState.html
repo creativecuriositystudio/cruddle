@@ -495,6 +495,50 @@
                             </tr>
                         </tbody>
                     </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                            <tr>
+                                <td class="col-md-4">
+                                    <b> cancel</b>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td class="col-md-4">
+            <code>cancel(instance: T)</code>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td class="col-md-4">
+                                        <div class="io-description"><p>Cancels deleting a model instance using the function provided by the describer.</p>
+            </div>
+                                        <div class="io-description">
+                                                <b>Parameters :</b>
+                                                <ul class="jsdoc-params">
+                                                        <li>
+                                                            <div>
+                                                                <b>instance</b>
+                                                            </div>
+                                                            <div>
+                                                                <p>The instance to cancel deleting for.</p>
+            
+                                                            </div>
+                                                        </li>
+                                                </ul>
+                                        </div>
+                                        <div class="io-description">
+                                            <b>Returns: </b>    <code>any</code>
+            
+                                        </div>
+                                            <div class="io-description">
+                                                <p>A promise that resolves when the delete has been cancelled.</p>
+            
+                                            </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
             </section>
 
 
@@ -515,33 +559,67 @@ export interface DeleteState&lt;T extends Model&gt; extends ScreenState&lt;T&gt;
    * @returns A promise that resolves when the instance has been deleted.
    */
   delete(instance: T, options?: any): Promise&lt;any&gt;;
+
+  /**
+   * Cancels deleting a model instance using the function provided by the describer.
+   *
+   * @param instance The instance to cancel deleting for.
+   * @returns A promise that resolves when the delete has been cancelled.
+   */
+  cancel(instance: T): Promise&lt;any&gt;;
 }
 
 /** Describes a delete screen. */
 export abstract class DeleteDescriber&lt;T extends Model&gt; extends ScreenDescriber&lt;T&gt; {
   /** Initializes the state of a delete screen from the describer. */
   state(): DeleteState&lt;T&gt; {
+    let del &#x3D; this.delete.bind(this);
+    let cancel &#x3D; this.cancel.bind(this);
+
     return {
       ... super.state(),
 
-      delete: this.delete.bind(this)
+      /** The wrapped delete functionality. */
+      async delete(instance: T, options?: any): Promise&lt;any&gt; {
+        return del(this, instance, options);
+      },
+
+      /** The wrapped cancel functionality. */
+      async cancel(instance: T): Promise&lt;any&gt; {
+        return cancel(this, instance);
+      }
     };
   }
 
   /**
    * Deletes a model instance.
    *
+   * @param state The current delete screen state.
    * @param instance The instance to delete.
    * @param options Any extra options to provide.
    * @returns A promise that resolves when the instance has been deleted.
    */
-  async abstract delete(instance: T, options?: any): Promise&lt;any&gt;;
+  async abstract delete(state: DeleteState&lt;T&gt;, instance: T, options?: any): Promise&lt;any&gt;;
+
+  /**
+   * Cancels deleting a model instance.
+   *
+   * @param state The current delete screen state.
+   * @param instance The instance to cancel deleting for.
+   * @returns A promise that resolves when the delete has been cancelled.
+   */
+  async cancel(_state: DeleteState&lt;T&gt;, _instance_: T): Promise&lt;any&gt; {
+    // Do nothing.
+  }
 }
 
 /** The options for the default implementation of a delete describer. */
 export interface DefaultDeleteOptions&lt;T extends Model&gt; {
   /** The delete function to provide to the default describer. */
-  delete(instance: T, options?: any): Promise&lt;any&gt;;
+  delete(state: DeleteState&lt;T&gt;, instance: T, options?: any): Promise&lt;any&gt;;
+
+  /** The cancel function to provide to the default describer. */
+  cancel?(state: DeleteState&lt;T&gt;, instance: T): Promise&lt;any&gt;;
 }
 
 /** A delete describer for a model which uses default behaviour. */
@@ -561,9 +639,16 @@ export class DefaultDeleteDescriber&lt;T extends Model&gt; extends DeleteDescrib
     this.options &#x3D; options;
   }
 
-  /** Saves the form data using the save function provided as an option. */
-  async delete(instance: T, options?: any): Promise&lt;T&gt; {
-    return this.options.delete(instance, options);
+  /** Deletes the instance using the delete function provided as an option. */
+  async delete(state: DeleteState&lt;T&gt;, instance: T, options?: any): Promise&lt;any&gt; {
+    return this.options.delete(state, instance, options);
+  }
+
+  /** Cancels deleting the instance using the cancel function provided as an option. */
+  async cancel(state: DeleteState&lt;T&gt;, instance: T): Promise&lt;any&gt; {
+    if (typeof (this.options.cancel) &#x3D;&#x3D;&#x3D; &#x27;function&#x27;) {
+      return this.options.cancel(state, instance);
+    }
   }
 }
 

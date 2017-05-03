@@ -512,7 +512,7 @@
             </section>
     </div>
     <div class="tab-pane fade tab-source-code" id="source">
-        <pre><code class="hljs javascript">import { Injectable } from &#x27;@angular/core&#x27;;
+        <pre><code class="hljs javascript">import { Injectable, EventEmitter } from &#x27;@angular/core&#x27;;
 import { Model, ModelConstructor } from &#x27;modelsafe&#x27;;
 import * as _ from &#x27;lodash&#x27;;
 
@@ -599,6 +599,9 @@ export interface ListState&lt;T extends Model&gt; extends ScreenState&lt;T&gt; {
 
   /** The current list view mode. */
   mode?: string;
+
+  /** Emits events when the screen is refreshed. */
+  refreshes: EventEmitter&lt;T[]&gt;;
 
   /**
    * Refreshes the list data on the screen using the latest list state.
@@ -723,6 +726,8 @@ export interface ListState&lt;T extends Model&gt; extends ScreenState&lt;T&gt; {
 export abstract class ListDescriber&lt;T extends Model&gt; extends ScreenDescriber&lt;T&gt; {
   /** Initializes the state for the list screen described by this class. */
   state(): ListState&lt;T&gt; {
+    let refresh &#x3D; this.refresh.bind(this);
+
     // FIXME: The any cast here is required to temporarily get around not having a
     // refresh function on the list state at first.
     let state: ListState&lt;T&gt; &#x3D; {
@@ -730,6 +735,7 @@ export abstract class ListDescriber&lt;T extends Model&gt; extends ScreenDescrib
 
       filters: [],
       sorting: [],
+      refreshes: new EventEmitter(),
 
       /** Clear the sorting of the list. */
       clearSorting(refresh: boolean &#x3D; true) {
@@ -858,13 +864,15 @@ export abstract class ListDescriber&lt;T extends Model&gt; extends ScreenDescrib
         }
       },
 
-      /** Just a placeholder. */
-      async refresh() {
-        return [];
+      /** Refreshes the list data using the function provided by the describer. */
+      async refresh(): Promise&lt;T[]&gt; {
+        let data &#x3D; await refresh(this);
+
+        this.refreshes.emit(data);
+
+        return data;
       }
     };
-
-    state.refresh &#x3D; this.refresh.bind(this, state);
 
     return state;
   }
